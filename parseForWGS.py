@@ -217,7 +217,7 @@ def getWGS (release,projkey,output,alldat): #STR STR FILEHANDLE FILEHANDLE
 
     #these are the sequencing technologies we care about
 
-    addtocount = 'WGS','WXS','WGA'
+    addtocount = 'WGS','WXS','WGA','miRNA-Seq','meth_array'
 
     #initiate empty dictonary that maps a sequencing strategy to a list of donors
 
@@ -235,6 +235,9 @@ def getWGS (release,projkey,output,alldat): #STR STR FILEHANDLE FILEHANDLE
 
     #larger RNA-SEQ and METH-ARRAY files. They are not included by default since these files are exceptionally large
     largefiles = "mirna_seq","meth_array"
+
+    filelist = filelist.extend(largefiles)
+
 
     #attempt to download each file
     for filename in filelist:
@@ -304,7 +307,7 @@ def getWGS (release,projkey,output,alldat): #STR STR FILEHANDLE FILEHANDLE
             if sindex != -1:
                 tempstrat = line[sindex]
             else: 
-                tempstrat = a
+                tempstrat = 'meth_array'
             tempdonor = line[dindex]
 
             if tempstrat in data:
@@ -355,8 +358,8 @@ def getWGS (release,projkey,output,alldat): #STR STR FILEHANDLE FILEHANDLE
     alldat.write (str(finalnum)+"\t") 
     return finalnum
 
-#jdoge = open ("t","w")
-#:getWGS(sys.argv[1],sys.argv[2],doge)
+#doge = open ("t","w")
+#getWGS(sys.argv[1],sys.argv[2],doge,doge)
 #readAll(sys.argv[1:])
 #for a in sys.argv[1:]:
 #    getClinicalPercentage (a) #STR STR FILEHANDLE
