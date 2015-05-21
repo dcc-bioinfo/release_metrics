@@ -9,6 +9,8 @@ import gzip
 
 directory = sys.argv[1]
 
+total_fields = 50 #total number of entires to calculate avg
+
 #open the directory to view the projects
 
 allpercent = open ("all_clinical.txt",'w')
@@ -42,12 +44,12 @@ for filename in os.listdir(directory):
             avgpcawg += avglist[1]
 
         parseForWGS.clearAll()
-        #print avg
-        out.write ("Average\t"+"{:.1%}".format(avgtotal/50)+"\t")
-        allpercent.write ("{:.1%}".format(avgtotal/50))
+        #print avg, we are assuming total_fields entries. 
+        out.write ("Average\t"+"{:.1%}".format(avgtotal/total_fields)+"\t")
+        allpercent.write ("{:.1%}".format(avgtotal/total_fields))
         if avgpcawg != 0:
-            out.write ("{:.1%}".format(avgpcawg/50))
-            pallpercent.write ("{:.1%}".format(avgpcawg/50))
+            out.write ("{:.1%}".format(avgpcawg/total_fields))
+            pallpercent.write ("{:.1%}".format(avgpcawg/total_fields))
         else:
             out.write ("N/A")
             pallpercent.write ("N/A")

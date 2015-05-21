@@ -37,9 +37,3 @@ for s in table:
         if a != projkey:
             tablenew.write ("\t"+a)
 
-
-    
-
-
-    
-

@@ -39,7 +39,7 @@ def deleteFiles (filelist):
             pass
     #ignore exception, file may not be there in first place
 
-def adduniq (lista, listb): 
+def addUniq (lista, listb): 
     #add door list b into list a, but only keep unique entries
     for donor in listb:
         if donor not in lista:
@@ -231,12 +231,12 @@ def getWGS (release,projkey,output,alldat): #STR STR FILEHANDLE FILEHANDLE
 
     #assuming proper naming, the files should be as follows
 
-    filelist = "simple_somatic_mutation.open","structural_somatic_mutation", "copy_number_somatic_mutation", "splice_variant", "simple_somatic_mutation"
+    filelist = ["simple_somatic_mutation.open","structural_somatic_mutation", "copy_number_somatic_mutation", "splice_variant", "simple_somatic_mutation"]
 
     #larger RNA-SEQ and METH-ARRAY files. They are not included by default since these files are exceptionally large
-    largefiles = "mirna_seq","meth_array"
+    largefiles = ["mirna_seq","meth_array"]
 
-    filelist = filelist.extend(largefiles)
+    filelist.extend(largefiles)
 
 
     #attempt to download each file
@@ -328,7 +328,7 @@ def getWGS (release,projkey,output,alldat): #STR STR FILEHANDLE FILEHANDLE
     for strategy in data:
         print len(data[strategy]), "unique donors for", strategy
         if strategy in addtocount:
-            total = adduniq(total,data[strategy])
+            total = addUniq(total,data[strategy])
     #print each strategy
     for strat in addtocount:
         if strat in data:
@@ -358,8 +358,8 @@ def getWGS (release,projkey,output,alldat): #STR STR FILEHANDLE FILEHANDLE
     alldat.write (str(finalnum)+"\t") 
     return finalnum
 
-#doge = open ("t","w")
-#getWGS(sys.argv[1],sys.argv[2],doge,doge)
+doge = open ("t","w")
+getWGS(sys.argv[1],sys.argv[2],doge,doge)
 #readAll(sys.argv[1:])
 #for a in sys.argv[1:]:
 #    getClinicalPercentage (a) #STR STR FILEHANDLE
