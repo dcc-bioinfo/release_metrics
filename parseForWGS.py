@@ -2,11 +2,11 @@
 from __future__ import division #needed to cacluate floats from two ints
 import sys
 import re
-import subprocess
-import os
+import subprocess #call terminal commands
+import os #os functions (remove file)
 import unittest #probably needed eventually
-import gzip
-import bz2
+import gzip #read gzip
+import bz2 #read bz2
 
 #NAUGHTY NAUGHTY global variables
 #these are lists containing lines of donor, specimen and sample files
