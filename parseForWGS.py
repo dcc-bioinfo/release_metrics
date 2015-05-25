@@ -104,6 +104,7 @@ def isPCAWG(someid,filetype):
     #case 3: sample check study == 1
 
     someid = re.split (r'\t',someid) #some sort of id dependant on filetype
+
     if filetype == "sample":
         if someid[-1].rstrip("\n") == "1": #we assume the last field is the "Study" filed
             return 1
@@ -116,8 +117,7 @@ def isPCAWG(someid,filetype):
         for a in matching:
             if isPCAWG(a,"sample") == 1:
                 return 1
-            else:
-                return 0
+        return 0
     elif filetype == "donor":
         donorid = someid[0]
         #find all lines that contain this donorid in specimen file
@@ -125,8 +125,7 @@ def isPCAWG(someid,filetype):
         for a in matching:
            if isPCAWG(a,"specimen") == 1:
                return 1
-           else:
-               return 0
+        return 0
     return 0 #if it somehow gets here, just return false
 
 def getClinicalPercentage (afile,filehandle,allp,pallp): 
@@ -358,8 +357,8 @@ def getWGS (release,projkey,output,alldat): #STR STR FILEHANDLE FILEHANDLE
     alldat.write (str(finalnum)+"\t") 
     return finalnum
 
-doge = open ("t","w")
-getWGS(sys.argv[1],sys.argv[2],doge,doge)
+#doge = open ("t","w")
+#getWGS(sys.argv[1],sys.argv[2],doge,doge)
 #readAll(sys.argv[1:])
 #for a in sys.argv[1:]:
 #    getClinicalPercentage (a) #STR STR FILEHANDLE

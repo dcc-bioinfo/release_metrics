@@ -1,5 +1,5 @@
 msg <- "meowmeowmeow"
-library(qplots)
+library(gplots)
 
 message("Choose file for heatmap (tab delimited)")
 raw <- read.csv(file.choose(),sep="\t")

@@ -9,7 +9,7 @@ import gzip
 
 directory = sys.argv[1]
 
-total_fields = 50 #total number of entires to calculate avg
+total_fields = 53 #total number of entires to calculate avg
 
 #open the directory to view the projects
 
