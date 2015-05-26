@@ -32,12 +32,21 @@ def checkAnalyzed(donorid,specimen,sample,data):
         matching2 = [x for x in sample if someid[1] in x]
         for g in matching2:
             someid2 = re.split (r'\t',g)
+            if "analyzed_sample" in someid2[0]:
+                continue
             if any(someid2[0] in y for y in data):
                 found = 1
 
     return found
 
 
+def trimData(data):
+    #gets rid of everything put analyzed sample id
+    newdata=[]
+    for s in data:
+        sampleid = re.split (r'\t',s)
+        newdata.append(sampleid[1])
+    return newdata
 
 def main():
 
@@ -61,11 +70,14 @@ def main():
         specimenfilelist=[]
         samplefilelist=[]
         #open this project folder
+        if "TEST" in filename:
+            continue
         if not os.path.isfile(filename):
             for files in os.listdir(directory+"/"+filename):
-                if not files.startswith('.'):
+                if not files.startswith('.') and ".bak" not in files:
                     if "donor" in files:
-                        donorfilelist.append(directory+"/"+filename+"/"+files)
+                        if "pancancer" not in files:
+                            donorfilelist.append(directory+"/"+filename+"/"+files)
                     elif "specimen" in files:
                         specimenfilelist.append(directory+"/"+filename+"/"+files)
                     elif "sample" in files:
@@ -78,18 +90,20 @@ def main():
         sample = readFiles (samplefilelist)
         data = readFiles (metafilelist)
 
+        data = trimData(data)
+
         donorids = []
 
         for line in donors[1:]:
             someid = re.split(r'\t',line)
             #get the donor_id from the line
             potential_id = someid[0]
-            if checkAnalyzed(potential_id,specimen,sample,data) == 1:
-                donorids.append(someid[0])
-                #check that this donor is used 
+            if potential_id not in donorids:
+                if checkAnalyzed(potential_id,specimen,sample,data) == 1:
+                    donorids.append(someid[0])
 
         total += len(donorids)
-
+        print filename+":"+str(len(donorids))
     print total
 
 main()
