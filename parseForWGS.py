@@ -14,6 +14,10 @@ donorfile =[]
 specimenfile =[]
 samplefile =[]
 
+#new files in R19
+therapy =[]
+exposure =[]
+family =[]
 
 def checkExistURL (command): 
     #checks if a curl url exists before attempting to download, so we don't flood people with 404 messages
@@ -118,7 +122,7 @@ def isPCAWG(someid,filetype):
             if isPCAWG(a,"sample") == 1:
                 return 1
         return 0
-    elif filetype == "donor":
+    elif filetype == "donor" or filetype == "family" or filetype == "exposure" or filetype == "therapy":
         donorid = someid[0]
         #find all lines that contain this donorid in specimen file
         matching = [s for s in specimenfile if donorid in s]
@@ -143,7 +147,7 @@ def getClinicalPercentage (afile,filehandle,allp,pallp):
 
     
     #determine what kind of file we are reading
-    if "donor" in inputfile:
+    if "donor" or "family"  or "therapy" or "exposure" in inputfile:
         filetype = "donor"
         currentlist = donorfile
     elif "specimen" in inputfile:
@@ -152,11 +156,8 @@ def getClinicalPercentage (afile,filehandle,allp,pallp):
     elif "sample" in inputfile:
         filetype = "sample"
         currentlist = samplefile
-    else:
-        print "error, wrong kind of file!"
 
     #read in the header
-
     line = currentlist[0]
     line.rstrip('\n')
     header =  re.split (r'\t', line);
@@ -173,7 +174,7 @@ def getClinicalPercentage (afile,filehandle,allp,pallp):
     pcawgtotal = 0 #total for projects in PCAWG
 
     for s in currentlist[1:]:
-        #go through each line. A line should typically dictate 1 donor
+        #go through each line. A line should typically dictate 1 donor/specimen/sample
         s.rstrip('\n')
         totaldonors+=1
         if isPCAWG(s,filetype):

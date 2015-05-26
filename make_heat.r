@@ -12,4 +12,4 @@ mata = data.matrix(numraw)
 rownames(mata) = rnames
 
 other_palette <- colorRampPalette (c("red2","yellow2","green2"))(n=100)
-heatmap.2 (mata,Rowv=NA,Colv=NA,scale="none",margins=c(18,6),col=other_palette,cexRow=0.5,density.info="none",trace="none")
+heatmap.2 (mata,Rowv=NA,Colv=NA,scale="none",margins=c(18,6),col=other_palette,cexRow=0.5,density.info="none",trace="none",lhei=c(0.1,0.5))
