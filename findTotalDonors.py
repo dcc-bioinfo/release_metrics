@@ -101,8 +101,10 @@ def main(group):
                         specimenfilelist.append(directory+"/"+filename+"/"+files)
                     elif "sample" in files:
                         samplefilelist.append(directory+"/"+filename+"/"+files)
-                    elif any(flist) in files:
-                        metafilelist.append(directory+"/"+filename+"/"+files) 
+                    else:
+                        for target in flist:
+                            if target in files:
+                                metafilelist.append(directory+"/"+filename+"/"+files) 
 
         donors = readFiles (donorfilelist)
         specimen= readFiles (specimenfilelist)
