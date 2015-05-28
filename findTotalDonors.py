@@ -122,7 +122,7 @@ def main(group):
             if potential_id not in donorids:
                 if checkAnalyzed(potential_id,specimen,sample,data) == 1:
                     donorids.append(someid[0])
-                    print someid[0]
+                    #print someid[0]
 
         total += len(donorids)
         print filename+":"+str(len(donorids))
