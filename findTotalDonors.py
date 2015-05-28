@@ -62,7 +62,7 @@ def main(group):
 
     #files
     if group == "dna":
-        flist = ["smm_m","stsm_m","cnsm_m","jcn_m"]
+        flist = ["ssm_m","stsm_m","cnsm_m","jcn_m"]
     elif group == "rnaseq":
         flist = []
     elif group == "epigenome":
