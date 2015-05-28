@@ -58,27 +58,14 @@ def trimData(data,group):
            newdata.append(sampleid[1])
     return newdata
 
-def main(group):
+def main(go):
 
     donors = [] #list containing all donors
     specimen = [] #list containing all specimen file
     sample = [] #list containing all sample files
     data = [] #list containing metadata (everything with _m)
 
-    #files
-    if group == "dna":
-        flist = ["ssm_m","stsm_m","cnsm_m","jcn_m"]
-    elif group == "rnaseq":
-        flist = ["mirna_seq_m","exp_seq_m"]
-    elif group == "epigenome":
-        flist = ["meth_seq_m"]
-    elif group == "protein":
-        flist = ["pexp_m"]
-    elif group == "arraybase":
-        flist = ["exp_array_m","meth_array_m"]
-
-
-
+    groups = ["dna","rnaseq","epigenome","protein","arraybase"]
 
     directory = sys.argv[1]
 
@@ -88,53 +75,65 @@ def main(group):
 
 
     for filename in os.listdir(directory):
+        for group in groups:
 
-        metafilelist=[]
-        donorfilelist=[]
-        specimenfilelist=[]
-        samplefilelist=[]
-        #open this project folder
-        if "TEST" in filename:
-            continue
-        if not os.path.isfile(filename):
-            for files in os.listdir(directory+"/"+filename):
-                if not files.startswith('.') and ".bak" not in files:
-                    if "donor" in files:
-                        if "pancancer" not in files:
-                            donorfilelist.append(directory+"/"+filename+"/"+files)
-                    elif "specimen" in files:
-                        specimenfilelist.append(directory+"/"+filename+"/"+files)
-                    elif "sample" in files:
-                        samplefilelist.append(directory+"/"+filename+"/"+files)
-                    else:
-                        for target in flist:
-                            if target in files:
-                                metafilelist.append(directory+"/"+filename+"/"+files) 
+            if group == "dna":
+                flist = ["ssm_m","stsm_m","cnsm_m","jcn_m"]
+            elif group == "rnaseq":
+                flist = ["mirna_seq_m","exp_seq_m"]
+            elif group == "epigenome":
+                flist = ["meth_seq_m"]
+            elif group == "protein":
+                flist = ["pexp_m"]
+            elif group == "arraybase":
+                flist = ["exp_array_m","meth_array_m"]
 
-        donors = readFiles (donorfilelist)
-        specimen= readFiles (specimenfilelist)
-        sample = readFiles (samplefilelist)
-        data = readFiles (metafilelist)
+            metafilelist=[]
+            donorfilelist=[]
+            specimenfilelist=[]
+            samplefilelist=[]
+            #open this project folder
+            if "TEST" in filename:
+                continue
+            if not os.path.isfile(filename):
+                for files in os.listdir(directory+"/"+filename):
+                    if not files.startswith('.') and ".bak" not in files:
+                        if "donor" in files:
+                            if "pancancer" not in files:
+                                donorfilelist.append(directory+"/"+filename+"/"+files)
+                        elif "specimen" in files:
+                            specimenfilelist.append(directory+"/"+filename+"/"+files)
+                        elif "sample" in files:
+                            samplefilelist.append(directory+"/"+filename+"/"+files)
+                        else:
+                            for target in flist:
+                                if target in files:
+                                    metafilelist.append(directory+"/"+filename+"/"+files) 
 
-        data = trimData(data,group)
+            donors = readFiles (donorfilelist)
+            specimen= readFiles (specimenfilelist)
+            sample = readFiles (samplefilelist)
+            data = readFiles (metafilelist)
 
-        donorids = []
+            data = trimData(data,group)
 
-        for line in donors[1:]:
-            someid = re.split(r'\t',line)
-            #get the donor_id from the line
-            potential_id = someid[0]
-            if potential_id not in donorids:
-                if checkAnalyzed(potential_id,specimen,sample,data) == 1:
-                    donorids.append(someid[0])
-                    #print someid[0]
+            donorids = []
 
-        total += len(donorids)
-        print filename+":"+str(len(donorids))
+            for line in donors[1:]:
+                someid = re.split(r'\t',line)
+                #get the donor_id from the line
+                potential_id = someid[0]
+                if potential_id not in donorids:
+                    if checkAnalyzed(potential_id,specimen,sample,data) == 1:
+                        donorids.append(someid[0])
+                        #print someid[0]
+
+            total += len(donorids)
+            print filename+":"+group+":"+str(len(donorids)),
     print total
 
 #need to run "main" on every file group
-main("rnaseq")
+main("guu")
 #main("rnaseq")
 #main("epigenome")
 #main("protein")
