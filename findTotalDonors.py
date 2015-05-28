@@ -64,13 +64,13 @@ def main(group):
     if group == "dna":
         flist = ["ssm_m","stsm_m","cnsm_m","jcn_m"]
     elif group == "rnaseq":
-        flist = []
+        flist = ["mirna_seq_m","exp_seq_m"]
     elif group == "epigenome":
-        flist = []
+        flist = ["meth_seq_m"]
     elif group == "protein":
-        flist = []
+        flist = ["pexp_m"]
     elif group == "arraybase":
-        flist = []
+        flist = ["exp_array_m","meth_array_m"]
 
 
 
