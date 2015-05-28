@@ -47,7 +47,7 @@ def trimData(data,group):
         sampleid = re.split (r'\t',s)
         if group == "dna":
             #we care about the sequencing strategy here
-            if sampleid[10] = "3":
+            if sampleid[10] == "3":
                newdata.append(sampleid[1])
         else:
            newdata.append(sampleid[1])
@@ -59,6 +59,20 @@ def main(group):
     specimen = [] #list containing all specimen file
     sample = [] #list containing all sample files
     data = [] #list containing metadata (everything with _m)
+
+    #files
+    if group == "dna":
+        flist = ["smm_m","stsm_m","cnsm_m","jcn_m"]
+    elif group == "rnaseq":
+        flist = []
+    elif group == "epigenome":
+        flist = []
+    elif group == "protein":
+        flist = []
+    elif group == "arraybase":
+        flist = []
+
+
 
 
     directory = sys.argv[1]
@@ -87,7 +101,7 @@ def main(group):
                         specimenfilelist.append(directory+"/"+filename+"/"+files)
                     elif "sample" in files:
                         samplefilelist.append(directory+"/"+filename+"/"+files)
-                    elif "ssm_m" in files:
+                    elif any(flist) in files:
                         metafilelist.append(directory+"/"+filename+"/"+files) 
 
         donors = readFiles (donorfilelist)
