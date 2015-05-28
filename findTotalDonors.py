@@ -34,21 +34,26 @@ def checkAnalyzed(donorid,specimen,sample,data):
             someid2 = re.split (r'\t',g)
             if "analyzed_sample" in someid2[0]:
                 continue
-            if any(someid2[0] in y for y in data):
+            if (someid2[0] in data):
                 found = 1
 
     return found
 
 
-def trimData(data):
+def trimData(data,group):
     #gets rid of everything put analyzed sample id
     newdata=[]
     for s in data:
         sampleid = re.split (r'\t',s)
-        newdata.append(sampleid[1])
+        if group == "dna":
+            #we care about the sequencing strategy here
+            if sampleid[10] = "3":
+               newdata.append(sampleid[1])
+        else:
+           newdata.append(sampleid[1])
     return newdata
 
-def main():
+def main(group):
 
     donors = [] #list containing all donors
     specimen = [] #list containing all specimen file
@@ -82,7 +87,7 @@ def main():
                         specimenfilelist.append(directory+"/"+filename+"/"+files)
                     elif "sample" in files:
                         samplefilelist.append(directory+"/"+filename+"/"+files)
-                    elif "_m" in files:
+                    elif "ssm_m" in files:
                         metafilelist.append(directory+"/"+filename+"/"+files) 
 
         donors = readFiles (donorfilelist)
@@ -90,7 +95,7 @@ def main():
         sample = readFiles (samplefilelist)
         data = readFiles (metafilelist)
 
-        data = trimData(data)
+        data = trimData(data,group)
 
         donorids = []
 
@@ -101,9 +106,10 @@ def main():
             if potential_id not in donorids:
                 if checkAnalyzed(potential_id,specimen,sample,data) == 1:
                     donorids.append(someid[0])
+                    print someid[0]
 
         total += len(donorids)
         print filename+":"+str(len(donorids))
     print total
 
-main()
+main("dna")
