@@ -47,7 +47,7 @@ def trimData(data,group):
         sampleid = re.split (r'\t',s)
         if group == "dna":
             #we care about the sequencing strategy here
-            if sampleid[10] == "3":
+            if sampleid[10] == "3" or sampleid[10] == "1" or sampleid[10] == "2":
                newdata.append(sampleid[1])
         else:
            newdata.append(sampleid[1])
