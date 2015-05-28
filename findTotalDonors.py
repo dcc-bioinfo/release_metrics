@@ -34,7 +34,7 @@ def checkAnalyzed(donorid,specimen,sample,data):
     for a in matching:
         #get the specimenid 
         someid = a
-        matching2 = [x for x in sample if someid[1] in x]
+        matching2 = [x for x in sample if someid in x]
         for g in matching2:
             someid2 = re.split (r'\t',g)
             if "analyzed_sample" in someid2[0]:
@@ -133,4 +133,9 @@ def main(group):
         print filename+":"+str(len(donorids))
     print total
 
-main("dna")
+#need to run "main" on every file group
+main("rnaseq")
+#main("rnaseq")
+#main("epigenome")
+#main("protein")
+#main("arraybase")
