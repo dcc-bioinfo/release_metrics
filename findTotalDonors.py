@@ -22,6 +22,9 @@ def readFiles (filenames):
         biglist.extend(lines)
     return biglist
 
+def common_elements(lista,listb):
+    return list(set(lista).intersection(listb))
+
 def checkAnalyzed(donorid,specimen,sample,data):
     #return all lines in specimen matching
     found = 0
@@ -75,6 +78,7 @@ def main(go):
 
 
     for filename in os.listdir(directory):
+        print ""
         for group in groups:
 
             if group == "dna":
@@ -92,6 +96,8 @@ def main(go):
             donorfilelist=[]
             specimenfilelist=[]
             samplefilelist=[]
+
+            wholegenomes=[]
             #open this project folder
             if "TEST" in filename:
                 continue
@@ -129,7 +135,12 @@ def main(go):
                         #print someid[0]
 
             total += len(donorids)
-            print filename+":"+group+":"+str(len(donorids)),
+            if group == "dna":
+                wholegenome = donorids
+                print filename+":"+group,
+                print (len(wholegenome)),
+            else:
+                print (len(common_elements(donorids,wholegenome))),
     print total
 
 #need to run "main" on every file group
