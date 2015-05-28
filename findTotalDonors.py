@@ -28,11 +28,12 @@ def checkAnalyzed(donorid,specimen,sample,data):
     #matching = [s for s in specimen if donorid in s]
     matching = []
     for s in specimen:
+        s = re.split (r'\t',s)
         if donorid == s[0]:
             matching.append(s[1])
     for a in matching:
         #get the specimenid 
-        someid = re.split (r'\t',a)
+        someid = a
         matching2 = [x for x in sample if someid[1] in x]
         for g in matching2:
             someid2 = re.split (r'\t',g)
