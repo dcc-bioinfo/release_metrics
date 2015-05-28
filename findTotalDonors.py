@@ -47,7 +47,7 @@ def trimData(data,group):
         sampleid = re.split (r'\t',s)
         if group == "dna":
             #we care about the sequencing strategy here
-            if sampleid[10] == "3" or sampleid[10] == "1" or sampleid[10] == "2":
+            if sampleid[10] == "3" or sampleid[10] == "1" or sampleid[10] == "2" or sampleid[10] == "WGA" or sampleid[10] == "WGS" or sampleid[10] == "WXS":
                newdata.append(sampleid[1])
         else:
            newdata.append(sampleid[1])
@@ -121,7 +121,8 @@ def main(group):
             potential_id = someid[0]
             if potential_id not in donorids:
                 if checkAnalyzed(potential_id,specimen,sample,data) == 1:
-                    donorids.append(someid[0])
+                    if potential_id not in donorids:
+                        donorids.append(someid[0])
                     #print someid[0]
 
         total += len(donorids)
