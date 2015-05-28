@@ -78,7 +78,8 @@ def main(go):
 
 
     for filename in os.listdir(directory):
-        print ""
+	sys.stdout.flush()
+	sys.stdout.write("\n")
         for group in groups:
 
             if group == "dna":
@@ -97,7 +98,6 @@ def main(go):
             specimenfilelist=[]
             samplefilelist=[]
 
-            wholegenomes=[]
             #open this project folder
             if "TEST" in filename:
                 continue
@@ -132,16 +132,16 @@ def main(go):
                 if potential_id not in donorids:
                     if checkAnalyzed(potential_id,specimen,sample,data) == 1:
                         donorids.append(someid[0])
-                        #print someid[0]
+                        #sys.stdout.write someid[0]
 
             total += len(donorids)
             if group == "dna":
-                wholegenome = donorids
-                print filename+":"+group,
-                print (len(wholegenome)),
+                wholegenomes = donorids
+                sys.stdout.write (filename+"\t")
+                sys.stdout.write (str(len(wholegenomes)))
             else:
-                print (len(common_elements(donorids,wholegenome))),
-    print total
+                sys.stdout.write ("\t"+str(len(common_elements(donorids,wholegenomes))))
+    sys.stdout.write (str(total))
 
 #need to run "main" on every file group
 main("guu")
