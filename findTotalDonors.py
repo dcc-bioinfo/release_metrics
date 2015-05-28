@@ -25,7 +25,11 @@ def readFiles (filenames):
 def checkAnalyzed(donorid,specimen,sample,data):
     #return all lines in specimen matching
     found = 0
-    matching = [s for s in specimen if donorid in s]
+    #matching = [s for s in specimen if donorid in s]
+    matching = []
+    for s in specimen:
+        if donorid == s[0]:
+            matching.append(s[1])
     for a in matching:
         #get the specimenid 
         someid = re.split (r'\t',a)
@@ -121,8 +125,7 @@ def main(group):
             potential_id = someid[0]
             if potential_id not in donorids:
                 if checkAnalyzed(potential_id,specimen,sample,data) == 1:
-                    if potential_id not in donorids:
-                        donorids.append(someid[0])
+                    donorids.append(someid[0])
                     #print someid[0]
 
         total += len(donorids)
