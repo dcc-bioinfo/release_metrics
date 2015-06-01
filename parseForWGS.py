@@ -150,7 +150,7 @@ def getClinicalPercentage (afile,filehandle,allp,pallp):
     #current list we are working on
     
     #determine what kind of file we are reading
-    if "donor" or "family"  or "therapy" or "exposure" in inputfile:
+    if "donor" in inputfile or "family"  in inputfile or "therapy" in inputfile or "exposure" in inputfile:
         filetype = "donor"
         currentlist = donorfile
     elif "specimen" in inputfile:
