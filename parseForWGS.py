@@ -27,6 +27,10 @@ def checkExistURL (command):
     process.wait()
     return process.returncode
 
+def common_elements(lista,listb):
+    return list(set(lista).intersection(listb))
+
+
 def gunzipFiles (filename):
     #gunzips a file. Whether the file exists is NOT checked
     command = "gunzip -df "+filename+".gz" #zip will fail if there is already a file with same name
@@ -144,7 +148,6 @@ def getClinicalPercentage (afile,filehandle,allp,pallp):
     inputfile = afile #name of file
 
     #current list we are working on
-
     
     #determine what kind of file we are reading
     if "donor" or "family"  or "therapy" or "exposure" in inputfile:
@@ -215,9 +218,9 @@ def getClinicalPercentage (afile,filehandle,allp,pallp):
 
 def getWGS (release,projkey,output,alldat): #STR STR FILEHANDLE FILEHANDLE
 
-    #these are the sequencing technologies we care about
+    #these are the sequencing strategies in wholegenome files that contribute o the count
 
-    addtocount = 'WGS','WXS','WGA','miRNA-Seq','meth_array'
+    addtocount = 'WGS','WXS','WGA'
 
     #initiate empty dictonary that maps a sequencing strategy to a list of donors
 
@@ -229,14 +232,24 @@ def getWGS (release,projkey,output,alldat): #STR STR FILEHANDLE FILEHANDLE
 
     #output.write("\n"+release+"EQUALSEQUALS\t")
 
-    #assuming proper naming, the files should be as follows
-
-    filelist = ["simple_somatic_mutation.open","structural_somatic_mutation", "copy_number_somatic_mutation", "splice_variant", "simple_somatic_mutation"]
+    #WHOLE GENOMES
+    filelist = []
+    wholegenome = ["simple_somatic_mutation.open","structural_somatic_mutation", "copy_number_somatic_mutation", "splice_variant", "simple_somatic_mutation"]
 
     #larger RNA-SEQ and METH-ARRAY files. They are not included by default since these files are exceptionally large
-    largefiles = ["mirna_seq","meth_array"]
+    rnaseq = ["mirna_seq","exp_seq"]
 
-    filelist.extend(largefiles)
+    epigen = ["meth_seq"]
+
+    protein = ["protein_expression"]
+
+    arraybase = ["meth_array","exp_array"] #these don't have sequencing strategies, need to do a cross-check with final whole genome count
+
+    filelist.extend(wholegenome)
+    filelist.extend(rnaseq)
+    filelist.extend(epigen)
+    filelist.extend(protein)
+    filelist.extend(arraybase)
 
 
     #attempt to download each file
@@ -253,7 +266,7 @@ def getWGS (release,projkey,output,alldat): #STR STR FILEHANDLE FILEHANDLE
             command = "curl --fail -o "+filename+".gz https://dcc.icgc.org/api/v1/download?fn=/release_"+str(release)+".1/"+projkey+"/"+filename+"."+projkey+".tsv.gz"
             check = "curl --fail --silent --head -o /dev/null https://dcc.icgc.org/api/v1/download?fn=/release_"+str(release)+".1/"+projkey+"/"+filename+"."+projkey+".tsv.gz"
         else: #16 to 18 and hopefully beyond
-            command = "curl --fail -o "+filename+".gz https://dcc.icgc.org/api/v1/download?fn=/release_"+str(release)+"/Projects/"+projkey+"/"+filename+"."+projkey+".tsv.gz"
+            command = "curl --fail -o "+filename+" https://dcc.icgc.org/api/v1/download?fn=/release_"+str(release)+"/Projects/"+projkey+"/"+filename+"."+projkey+".tsv.gz"
             check = "curl --fail --silent --head -o /dev/null https://dcc.icgc.org/api/v1/download?fn=/release_"+str(release)+"/Projects/"+projkey+"/"+filename+"."+projkey+".tsv.gz"
         
 
@@ -272,16 +285,23 @@ def getWGS (release,projkey,output,alldat): #STR STR FILEHANDLE FILEHANDLE
             print "Attempted to download URL that doesn't exist"
             continue
 
-        #unzip the files
-        gunzipFiles(filename)
+        #unzip the files, not needed. We use gzip read instead
+        #gunzipFiles(filename)
     
 
-    for a in filelist: #SSM, STSM, CNSM, SPLICE
+    #as we go through each file, also put donors in these categories
+    alldna = []
+    allrnaseq = []
+    allepigenome = []
+    allprotein = []
+    allarray = []
+
+    for a in filelist: 
 
         #goes through each downloaded file and gets needed data
 
         try:
-            input = open (a,'r') #open input file
+            input = gzip.open (a,'r') #open input gzip file
         except:
             #don't have this file, skip to next iteration
             continue
@@ -301,14 +321,34 @@ def getWGS (release,projkey,output,alldat): #STR STR FILEHANDLE FILEHANDLE
 #        print "Sequencing Strategy Index:", sindex
 #        print "Donor ID index:", dindex
 
-
         for d in input:
-            line =  re.split (r'\t', d);
+            line =  re.split (r'\t', d)
             if sindex != -1:
                 tempstrat = line[sindex]
             else: 
-                tempstrat = 'meth_array'
+                tempstrat = a
             tempdonor = line[dindex]
+
+            #at this point, we have a pair [strategy:donor]
+
+            #add this donor to the appropriate category
+            if tempstrat != "Non-NGS":
+                if a in wholegenome:
+                    #this is our 100%
+                    if tempdonor not in alldna and tempstrat in addtocount:
+                        alldna.append(tempdonor)
+                elif a in rnaseq:
+                    if tempdonor not in allrnaseq:
+                        allrnaseq.append(tempdonor)
+                elif a in epigen:
+                    if tempdonor not in allepigenome:
+                        allepigenome.append(tempdonor)
+                elif a in protein:
+                    if tempdonor not in allprotein:
+                        allprotein.append(tempdonor)
+                elif a in arraybase:
+                    if tempdonor not in allarray:
+                        allarray.append(tempdonor)
 
             if tempstrat in data:
                 #key exists. Check if the donor is unique
@@ -325,6 +365,7 @@ def getWGS (release,projkey,output,alldat): #STR STR FILEHANDLE FILEHANDLE
     output.write(release+"\t")
 
     print "Project Key: "+projkey+" Release:"+release
+
     for strategy in data:
         print len(data[strategy]), "unique donors for", strategy
         if strategy in addtocount:
@@ -337,6 +378,13 @@ def getWGS (release,projkey,output,alldat): #STR STR FILEHANDLE FILEHANDLE
             output.write ("x\t") 
 
     deleteFiles(filelist)
+
+    print "Metrics:"
+    print "DNA:"+str(len(alldna))
+    print "RNASEQ:"+str(len(common_elements(allrnaseq,alldna)))
+    print "EPIGENOME:"+str(len(common_elements(allepigenome,alldna)))
+    print "PROTEIN:"+str(len(common_elements(allprotein,alldna)))
+    print "ARRAY-BASED:"+str(len(common_elements(allarray,alldna)))
 
 
     finalnum =0 
@@ -356,6 +404,8 @@ def getWGS (release,projkey,output,alldat): #STR STR FILEHANDLE FILEHANDLE
     output.write (str(finalnum)+"\n") 
     #write to big table
     alldat.write (str(finalnum)+"\t") 
+
+
     return finalnum
 
 #doge = open ("t","w")

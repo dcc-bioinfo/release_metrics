@@ -78,8 +78,8 @@ def main(go):
 
 
     for filename in os.listdir(directory):
-	sys.stdout.flush()
-	sys.stdout.write("\n")
+        sys.stdout.flush()
+        sys.stdout.write("\n")
         for group in groups:
 
             if group == "dna":
