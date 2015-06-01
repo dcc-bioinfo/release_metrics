@@ -70,6 +70,8 @@ def main(go):
 
     groups = ["dna","rnaseq","epigenome","protein","arraybase"]
 
+    #groups = ["all"]
+
     directory = sys.argv[1]
 
     #open the directory to view the projects
@@ -98,10 +100,14 @@ def main(go):
             specimenfilelist=[]
             samplefilelist=[]
 
+            #flip this on to do calculate all donors
+            #flist = ["_m"]
+            #then skip rest
+
             #open this project folder
             if "TEST" in filename:
                 continue
-            if not os.path.isfile(filename):
+            if not os.path.isfile(filename) and not filename.startswith('.') and "TEST" not in filename:
                 for files in os.listdir(directory+"/"+filename):
                     if not files.startswith('.') and ".bak" not in files:
                         if "donor" in files:
