@@ -32,7 +32,8 @@ for filename in os.listdir(directory):
         for files in os.listdir(directory+"/"+currentproject):
             if not files.startswith('.'):
                 #check if file is .gz
-                filelist.append(directory+"/"+currentproject+"/"+files) #add this file to our filelist
+                if "donor" in files or "specimen" in files or "sample" in files:
+                    filelist.append(directory+"/"+currentproject+"/"+files) #add this file to our filelist
         #run readALL
         parseForWGS.readAll(filelist)
         #avg variables
