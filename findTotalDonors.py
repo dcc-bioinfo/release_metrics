@@ -107,7 +107,7 @@ def main(go):
             #open this project folder
             if "TEST" in filename:
                 continue
-            if not os.path.isfile(filename) and not filename.startswith('.') and "TEST" not in filename:
+            if not os.path.isfile(filename):
                 for files in os.listdir(directory+"/"+filename):
                     if not files.startswith('.') and ".bak" not in files:
                         if "donor" in files:

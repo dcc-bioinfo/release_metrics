@@ -28,7 +28,7 @@ for filename in os.listdir(directory):
     out = open (currentproject+"_clinical_percentages.txt",'w')
     filelist=[]
     #open this project folder
-    if not os.path.isfile(filename):
+    if not os.path.isfile(filename) and not filename.startswith('.') and "TEST" not in filename:
         for files in os.listdir(directory+"/"+currentproject):
             if not files.startswith('.'):
                 #check if file is .gz
