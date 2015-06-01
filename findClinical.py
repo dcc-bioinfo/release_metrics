@@ -9,7 +9,6 @@ import gzip
 
 directory = sys.argv[1]
 
-total_fields = 53 #total number of entires to calculate avg
 
 #open the directory to view the projects
 
@@ -32,17 +31,21 @@ for filename in os.listdir(directory):
         for files in os.listdir(directory+"/"+currentproject):
             if not files.startswith('.'):
                 #check if file is .gz
-                if "donor" in files or "specimen" in files or "sample" in files:
+                if "donor" in files or "specimen" in files or "sample" in files or "therapy" in files or "family" in files or "exposure" in files:
                     filelist.append(directory+"/"+currentproject+"/"+files) #add this file to our filelist
+        if filelist = []:
+            continue
         #run readALL
         parseForWGS.readAll(filelist)
         #avg variables
         avgtotal =0
         avgpcawg =0
+        total_fields = 0
         for a in ["donor","specimen","sample"]:
             avglist =parseForWGS.getClinicalPercentage(a,out,allpercent,pallpercent)
             avgtotal += avglist[0]
             avgpcawg += avglist[1]
+            total_fields += avglist[2]
 
         parseForWGS.clearAll()
         #print avg, we are assuming total_fields entries. 

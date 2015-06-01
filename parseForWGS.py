@@ -144,7 +144,6 @@ def getClinicalPercentage (afile,filehandle,allp,pallp):
    
     FNULL=open(os.devnull) #pipes command to null
 
-
     inputfile = afile #name of file
 
     #current list we are working on
@@ -213,10 +212,10 @@ def getClinicalPercentage (afile,filehandle,allp,pallp):
             pallp.write ("N/A\t")
         count+=1
 
-    return [avgtotal,pcavgtotal]
+    return [avgtotal,pcavgtotal,len(headcount)]
 
 
-def getWGS (release,projkey,output,alldat): #STR STR FILEHANDLE FILEHANDLE
+def getWGS (release,projkey,output,alldiat): #STR STR FILEHANDLE FILEHANDLE
 
     #these are the sequencing strategies in wholegenome files that contribute o the count
 
