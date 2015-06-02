@@ -9,18 +9,27 @@ import gzip
 
 directory = sys.argv[1]
 
-
 #open the directory to view the projects
 
 allpercent = open ("all_clinical.txt",'w')
 pallpercent = open ("pcawg_clinical.txt",'w')
-#print header to summary files
+projfile = open ("signedofflist.txt",'r')
+projlist = projfile.readlines()
+projlist = map (lambda s: s.strip(), projlist)
 
+pcawgfields = open ("pcawgfields.txt",'r')
+pcawgfields = pcawgfields.readlines()
+pcawgfields = map (lambda s: s.strip(), pcawgfields)
+
+#print header to summary files
 allpercent.write ("filler\n")
 pallpercent.write ("filler\n")
 
 for filename in os.listdir(directory):
     currentproject = filename
+    if currentproject not in projlist:
+        continue
+
     allpercent.write (currentproject+"\t")
     pallpercent.write (currentproject+"\t")
     #open a file for this
@@ -33,15 +42,15 @@ for filename in os.listdir(directory):
                 #check if file is .gz
                 if "donor" in files or "specimen" in files or "sample" in files or "therapy" in files or "family" in files or "exposure" in files:
                     filelist.append(directory+"/"+currentproject+"/"+files) #add this file to our filelist
-        if filelist = []:
+        if filelist == []:
             continue
         #run readALL
-        parseForWGS.readAll(filelist)
+        parseForWGS.readAll(filelist,pcawgfields)
         #avg variables
         avgtotal =0
         avgpcawg =0
         total_fields = 0
-        for a in ["donor","specimen","sample"]:
+        for a in ["donor","specimen","sample","therapy","family","exposure"]:
             avglist =parseForWGS.getClinicalPercentage(a,out,allpercent,pallpercent)
             avgtotal += avglist[0]
             avgpcawg += avglist[1]

@@ -15,9 +15,10 @@ specimenfile =[]
 samplefile =[]
 
 #new files in R19
-therapy =[]
-exposure =[]
-family =[]
+therapyfile =[]
+exposurefile =[]
+familyfile =[]
+
 
 def checkExistURL (command): 
     #checks if a curl url exists before attempting to download, so we don't flood people with 404 messages
@@ -61,17 +62,30 @@ def clearAll ():
     global donorfile
     global specimenfile
     global samplefile
+    global therapyfile
+    global exposurefile
+    global familyfile
+
 
     donorfile = []
     specimenfile = []
     samplefile = []
+    therapyfile= []
+    exposurefile = []
+    familyfile = []
 
-def readAll (filenames):
+
+
+
+def readAll (filenames,pcawg):
     #reads in files into the following global variables
     #If one of these files are empty, isPCAWG will always return 0
     global donorfile
     global specimenfile
     global samplefile
+    global therapyfile
+    global exposurefile
+    global familyfile
 
 
     for f in filenames:
@@ -91,6 +105,21 @@ def readAll (filenames):
                 donorfile.extend(lines)
             else:
                 donorfile.extend(lines[1:])
+        elif "therapy" in f:
+            if therapyfile == []:
+                therapyfile.extend(lines)
+            else:
+                therapyfile.extend(lines[1:])
+        elif "family" in f:
+            if familyfile == []:
+                familyfile.extend(lines)
+            else:
+                familyfile.extend(lines[1:])
+        elif "exposure" in f:
+            if exposurefile == []:
+                exposurefile.extend(lines)
+            else:
+                exposurefile.extend(lines[1:])
         elif "specimen" in f:
             if specimenfile == []:
                 specimenfile.extend(lines)
@@ -149,9 +178,18 @@ def getClinicalPercentage (afile,filehandle,allp,pallp):
     #current list we are working on
     
     #determine what kind of file we are reading
-    if "donor" in inputfile or "family"  in inputfile or "therapy" in inputfile or "exposure" in inputfile:
+    if "donor" in inputfile:
         filetype = "donor"
         currentlist = donorfile
+    elif "therapy" in inputfile:
+        filetype = "therapy"
+        currentlist = therapyfile
+    elif "family" in inputfile:
+        filetype = "family"
+        currentlist = familyfile
+    elif "exposure" in inputfile:
+        filetype = "exposure"
+        currentlist = exposurefile
     elif "specimen" in inputfile:
         filetype = "specimen"
         currentlist = specimenfile
@@ -160,9 +198,14 @@ def getClinicalPercentage (afile,filehandle,allp,pallp):
         currentlist = samplefile
 
     #read in the header
+    #what if the project does not have this file?
+    if currentlist == []:
+        return [0,0,0]
     line = currentlist[0]
     line.rstrip('\n')
     header =  re.split (r'\t', line);
+
+    #remove elements from header if it's not in our list
 
     #create a dict that maps each clinical data element to an int
     headcount = [0]*len(header)
