@@ -17,6 +17,7 @@ idtostrat = {
         '16': "Bisulfite-seq",
         '30': "non-NGS",
         '0': "No-Data-temp"
+        '-888': "No-Data-temp"
         }
 
 def readFiles (filenames):
