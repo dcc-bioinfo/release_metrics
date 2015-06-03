@@ -201,9 +201,9 @@ def getClinicalPercentage (afile,filehandle,allp,pallp):
     #what if the project does not have this file?
     if currentlist == []:
         return [0,0,0]
-    line = currentlist[0]
-    line.rstrip('\n')
-    header =  re.split (r'\t', line);
+    header= currentlist[0]
+    header.rstrip('\n')
+    header =  re.split (r'\t', header);
 
     #remove elements from header if it's not in our list
 

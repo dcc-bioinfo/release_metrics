@@ -8,6 +8,9 @@ import bz2
 #OUTPUT: total number of whole genomes
 
 idtostrat = {
+        'WGS': "WGS",
+        'WGA': "WGA",
+        'WXS': "WXS",
         '1': "WGS",
         '2': "WGA",
         '3': "WXS",
