@@ -16,7 +16,7 @@ idtostrat = {
         '10': "AMPLICON",
         '16': "Bisulfite-seq",
         '30': "non-NGS",
-        '0': "No-Data-temp"
+        '0': "No-Data-temp",
         '-888': "No-Data-temp"
         }
 
@@ -85,6 +85,8 @@ def trimData(data,group):
            newdata.append((sampleid[1],sampleid[10]))
        elif group == "rnaseq":
            newdata.append((sampleid[1],sampleid[9]))
+       elif group == "mirnaseq":
+           newdata.append((sampleid[1],sampleid[10]))
        elif group == "epigenome":
            newdata.append((sampleid[1],sampleid[6]))
        else:
@@ -98,7 +100,7 @@ def main(go):
     sample = [] #list containing all sample files
     data = [] #list containing metadata (everything with _m)
 
-    groups = ["dna","rnaseq","epigenome","protein","arraybase"]
+    groups = ["dna","rnaseq","mirnaseq","epigenome","protein","arraybase"]
     #groups = ["dna","rnaseq","epigenome"]
 
     #groups = ["all"]
@@ -139,7 +141,9 @@ def main(go):
             if group == "dna":
                 flist = ["ssm_m","stsm_m","cnsm_m","jcn_m"]
             elif group == "rnaseq":
-                flist = ["mirna_seq_m","exp_seq_m"]
+                flist = ["exp_seq_m"]
+            elif group == "mirnaseq":
+                flist = ["mirna_seq_m"]
             elif group == "epigenome":
                 flist = ["meth_seq_m"]
             elif group == "protein":

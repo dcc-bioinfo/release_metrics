@@ -91,8 +91,10 @@ def main(go):
             elif group == "epigenome":
                 flist = ["meth_seq_m"]
             elif group == "protein":
+                #no sequencing strategy
                 flist = ["pexp_m"]
             elif group == "arraybase":
+                #no sequencing strategy
                 flist = ["exp_array_m","meth_array_m"]
 
             metafilelist=[]
