@@ -289,7 +289,8 @@ def getClinicalPercentage (afile,filehandle,allp,pallp):
         columns =  re.split (r'\t', s);
         index = 0
         for c in columns:
-            fieldname = header[index]
+            if headcount > 0:
+                fieldname = header[index]
             if c != "" and c != "-777" and c!="-888" and "unknown" not in c:
                 if fieldname == "specimen_type" and int(c) in range(101,108):
                     ignore_tumour= True
