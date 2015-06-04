@@ -41,10 +41,11 @@ def common_elements(lista,listb):
     return list(set(lista).intersection(listb))
 
 def isInData (specimenid,data):
+    foundpairs = []
     for pair in data:
         if specimenid == pair[0]:
-            return pair[1]
-    return -1
+            foundpairs.append(pair[1])
+    return foundpairs
 
 
 def checkAnalyzed(donorid,specimen,sample,data,table,donorids):
@@ -66,13 +67,16 @@ def checkAnalyzed(donorid,specimen,sample,data,table,donorids):
             someid2 = re.split (r'\t',g)
             if "analyzed_sample" in someid2[0]:
                 continue
-            if isInData(someid2[0],data) != -1:
+
+            foundat = isInData(someid2[0],data)
+            if foundat != []:
                 #one donorid can count for a analysis type ONCE, but can count in multiple analysis
-                seqstrat = idtostrat[isInData(someid2[0],data)]
-                if seqstrat not in foundseqstrats:
-                    foundseqstrats.append(seqstrat)
-                    table[seqstrat] +=1
-                found = 1
+                for a in foundat:
+                    seqstrat = idtostrat[a]
+                    if seqstrat not in foundseqstrats:
+                        foundseqstrats.append(seqstrat)
+                        table[seqstrat] +=1
+                    found = 1
     #check if this donor only got no data 
     if len(foundseqstrats) == 1 and "No-Data-temp" in foundseqstrats and donorid not in donorids:
         table["No-Data"] +=1
@@ -84,8 +88,10 @@ def trimData(data,group):
     newdata=[]
     for s in data:
        sampleid = re.split (r'\t',s)
+     
        if group == "dna":
            newdata.append((sampleid[1],sampleid[10]))
+           newdata.append((sampleid[2],sampleid[10]))
        elif group == "rnaseq":
            newdata.append((sampleid[1],sampleid[9]))
        elif group == "mirnaseq":
@@ -103,8 +109,8 @@ def main(go):
     sample = [] #list containing all sample files
     data = [] #list containing metadata (everything with _m)
 
-    groups = ["dna","rnaseq","mirnaseq","epigenome","protein","arraybase"]
-    #groups = ["dna","rnaseq","epigenome"]
+    #groups = ["dna","rnaseq","mirnaseq","epigenome","protein","arraybase"]
+    groups = ["dna"]
 
     #groups = ["all"]
 
@@ -190,7 +196,6 @@ def main(go):
 
             data = trimData(data,group)
 
-
             for line in donors[1:]:
                 someid = re.split(r'\t',line)
                 #get the donor_id from the line
@@ -200,6 +205,9 @@ def main(go):
                     #sys.stdout.write someid[0]
 
             total += len(donorids)
+
+
+            print "donorids:"+str(len(donorids))
         
         #print out the info for this project
         sys.stdout.write (str(idtostrat["WGS"])+"\t")
