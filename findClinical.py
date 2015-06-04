@@ -8,6 +8,7 @@ import gzip
 #OUTPUT: % clinical metrics for each project. 1 file per project. Also 2 files containing % for all projects for dcc and PCAWG
 
 directory = sys.argv[1]
+filetype = sys.argv[2]
 
 #open the directory to view the projects
 
@@ -40,7 +41,7 @@ for filename in os.listdir(directory):
         for files in os.listdir(directory+"/"+currentproject):
             if not files.startswith('.'):
                 #check if file is .gz
-                if "donor" in files or "specimen" in files or "sample" in files or "therapy" in files or "family" in files or "exposure" in files:
+                if filetype in files:
                     filelist.append(directory+"/"+currentproject+"/"+files) #add this file to our filelist
         if filelist == []:
             continue
@@ -50,7 +51,9 @@ for filename in os.listdir(directory):
         avgtotal =0
         avgpcawg =0
         total_fields = 0
-        for a in ["donor","specimen","sample","therapy","family","exposure"]:
+        
+        touselist =["donor","specimen","sample","therapy","family","exposure"]
+        for a in [filetype]:
             avglist =parseForWGS.getClinicalPercentage(a,out,allpercent,pallpercent)
             avgtotal += avglist[0]
             avgpcawg += avglist[1]

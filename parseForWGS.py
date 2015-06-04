@@ -165,6 +165,10 @@ def isPCAWG(someid,filetype):
         return 0
     return 0 #if it somehow gets here, just return false
 
+
+def allowNA (header,index,field):
+    pass
+
 def getClinicalPercentage (afile,filehandle,allp,pallp): 
     #obtains %completion for clinical data for given project on given release
     global donorfile
@@ -205,7 +209,65 @@ def getClinicalPercentage (afile,filehandle,allp,pallp):
     header.rstrip('\n')
     header =  re.split (r'\t', header);
 
-    #remove elements from header if it's not in our list
+    #declare our bools that check conditions
+    #specimen file
+    ignore_tumour = False
+    ignore_treatment_other = False
+    ignore_processing_other = False
+    ignore_storage_other= False
+    #donor file
+    ignore_relationship = False
+    ignore_relationship_type = False
+    #exposure file
+    ignore_smoking_intensity = False
+    #therapy
+    ignore_therapy1 = False
+    ignore_therapy2 = False
+    ignore_other_therapy = False
+
+    tumour = [
+            "tumour_confirmed",
+            "tumour_histological_type",
+            "tumour_grading_system",
+            "tumour_grade",
+            "tumour_grade_supplemental",
+            "tumour_stage_system",
+            "tumour_stage",
+            "tumour_stage_supplemental"
+            ]
+
+
+    relationship = [
+            "relationship_type",
+            "relationship_type_other",
+            "relationship_sex",
+            "relationship_age",
+            "relationship_disease_icd10",
+            "relationship_disease"
+            ]
+
+    relationship_other = ["relationship_type_other"]
+
+        
+    first_therapy = [
+         "first_therapy_response",
+         "first_therapy_therapeutic_intent",
+         "first_therapy_duration",
+         "first_therapy_start_interval"
+        ]
+    second_therapy = [
+         "second_therapy_response",
+         "second_therapy_therapeutic_intent",
+         "second_therapy_duration",
+         "second_therapy_start_interval"
+        ]
+    
+    other_therapy = [
+            "other_therapy",
+            "other_therapy_response"]
+
+
+    #depending on file type, check for the indexes of needed fields
 
     #create a dict that maps each clinical data element to an int
     headcount = [0]*len(header)
@@ -227,16 +289,53 @@ def getClinicalPercentage (afile,filehandle,allp,pallp):
         columns =  re.split (r'\t', s);
         index = 0
         for c in columns:
+            fieldname = header[index]
             if c != "" and c != "-777" and c!="-888" and "unknown" not in c:
+                if fieldname == "specimen_type" and int(c) in range(101,108):
+                    ignore_tumour= True
+                elif fieldname == "specimen_donor_treatment_type" and int(c) in range(4,11):
+                    ignore_treatment_other=True
+                elif fieldname == "specimen_processing" and int(c) in range(1,8):
+                    ignore_processing_other=True
+                elif fieldname == "specimen_storage" and int(c) in range(1,6):
+                    ignore_storage_other == True
+                elif fieldname == "donor_has_relative_with_cancer_history":
+                    ignore_relationship == True
+                elif fieldname == "relationship_type" and int(c) == 7:
+                    ignore_relationship == True
+                elif fieldname == "relationship_type" and int(c) in range(1,7):
+                    ignore_relationship_type == True
+                elif fieldname == "tobacco_smoking_history_indicator" and int(c) in range(1,6):
+                    ignore_smoking_intensity = True
+                elif fieldname == "first_therapy_type" and int(c) == 1:
+                    ignore_therapy1 = True
+                elif fieldname == "second_therapy_type" and int(c) == 1:
+                    ignore_therapy2 = True
+                elif fieldname == "first_therapy_type" or fieldname == "second_therapy_type" and int(c) in range (2,11):
+                    ignore_other_therapy = True
+
                 headcount[index]+=1
                 if isPCAWG(s,filetype):
                     pheadcount[index]+=1
+            else:
+                #check if we can still count it
+                if ((ignore_tumour and fieldname in tumour) or (ignore_treatment_other and fieldname == "specimen_donor_treatment_type_other") or(ignore_processing_other and fieldname == "specimen_processing_other") or(ignore_storage_other and fieldname == "specimen_storage_other") or(ignore_relationship and fieldname in relationship) or(ignore_relationship_type and fieldname == "relationship_type_other") or(ignore_smoking_intensity and fieldname == "tobacco_smoking_intensity") or (ignore_therapy1 and fieldname in first_therapy) or(ignore_therapy2 and fieldname in second_therapy) or(ignore_other_therapy and fieldname in other_therapy)):
+                        headcount[index]+=1
+                        if isPCAWG(s,filetype):
+                            pheadcount[index]+=1
+                 
+                if fieldname == "relationship_type":
+                    ignore_relationship_type = True
+                elif fieldname == "other_therapy":
+                    ignore_other_therapy = True
+                 
             index+=1 
     count = 0
 
     avgtotal =0;
     pcavgtotal=0;
 
+    #write to all tables and logfile
     if filetype == "donor":
         filehandle.write ("field_name\tdcc_completion\tPCAWG_completion\n")
     for field in header:
