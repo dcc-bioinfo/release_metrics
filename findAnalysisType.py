@@ -19,8 +19,8 @@ idtostrat = {
         '10': "AMPLICON",
         '16': "Bisulfite-seq",
         '30': "non-NGS",
-        '0': "No-Data",
-        '-888': "No-Data"
+        '0': "No-Data-temp",
+        '-888': "No-Data-temp"
         }
 
 def readFiles (filenames):
@@ -108,8 +108,7 @@ def main(go):
     sample = [] #list containing all sample files
     data = [] #list containing metadata (everything with _m)
 
-    #groups = ["dna","rnaseq","mirnaseq","epigenome","protein","arraybase"]
-    groups = ["dna"]
+    groups = ["dna","rnaseq","mirnaseq","epigenome","protein","arraybase"]
 
     #groups = ["all"]
 
