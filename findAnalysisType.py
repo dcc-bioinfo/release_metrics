@@ -19,8 +19,8 @@ idtostrat = {
         '10': "AMPLICON",
         '16': "Bisulfite-seq",
         '30': "non-NGS",
-        '0': "No-Data-temp",
-        '-888': "No-Data-temp"
+        '0': "No-Data",
+        '-888': "No-Data"
         }
 
 def readFiles (filenames):
@@ -206,7 +206,7 @@ def main(go):
             total += len(donorids)
 
 
-            print "donorids:"+str(len(donorids))
+                    #print "donorids:"+str(len(donorids))
         
         #print out the info for this project
         sys.stdout.write (str(idtostrat["WGS"])+"\t")
