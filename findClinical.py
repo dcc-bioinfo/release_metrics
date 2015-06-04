@@ -39,7 +39,7 @@ for filename in os.listdir(directory):
     #open this project folder
     if not os.path.isfile(filename) and not filename.startswith('.') and "TEST" not in filename:
         for files in os.listdir(directory+"/"+currentproject):
-            if not files.startswith('.'):
+            if not files.startswith('.') and "no_detect" not in files:
                 #check if file is .gz
                 if filetype in files:
                     filelist.append(directory+"/"+currentproject+"/"+files) #add this file to our filelist
