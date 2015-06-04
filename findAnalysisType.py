@@ -91,7 +91,6 @@ def trimData(data,group):
      
        if group == "dna":
            newdata.append((sampleid[1],sampleid[10]))
-           newdata.append((sampleid[2],sampleid[10]))
        elif group == "rnaseq":
            newdata.append((sampleid[1],sampleid[9]))
        elif group == "mirnaseq":
