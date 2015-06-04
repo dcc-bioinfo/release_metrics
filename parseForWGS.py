@@ -281,6 +281,21 @@ def getClinicalPercentage (afile,filehandle,allp,pallp):
     pcawgtotal = 0 #total for projects in PCAWG
 
     for s in currentlist[1:]:
+        ignore_tumour = False
+        ignore_treatment_other = False
+        ignore_processing_other = False
+        ignore_storage_other= False
+        #donor file
+        ignore_relationship = False
+        ignore_relationship_type = False
+        #exposure file
+        ignore_smoking_intensity = False
+        #therapy
+        ignore_therapy1 = False
+        ignore_therapy2 = False
+        ignore_other_therapy = False
+
+
         #go through each line. A line should typically dictate 1 donor/specimen/sample
         s.rstrip('\n')
         totaldonors+=1
@@ -316,6 +331,7 @@ def getClinicalPercentage (afile,filehandle,allp,pallp):
                     ignore_therapy2 = True
                 elif fieldname == "first_therapy_type" or fieldname == "second_therapy_type" and int(c) in range (2,11):
                     ignore_other_therapy = True
+                
 
                 headcount[index]+=1
                 if isPCAWG(s,filetype):
