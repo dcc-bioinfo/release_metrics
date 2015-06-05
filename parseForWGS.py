@@ -305,6 +305,7 @@ def getClinicalPercentage (afile,filehandle,allp,pallp):
         columns =  re.split (r'\t', s);
         index = 0
         for c in columns:
+            #run through it once to check booleans
             c = c.rstrip('\n')
             if len(header) > index:
                 fieldname = header[index]
@@ -334,24 +335,35 @@ def getClinicalPercentage (afile,filehandle,allp,pallp):
                     ignore_therapy2 = True
                 elif fieldname == "first_therapy_type" or fieldname == "second_therapy_type" and int(c) in range (2,12):
                     ignore_other_therapy = True
-                
-                headcount[index]+=1
-                if isPCAWG(s,filetype):
-                    pheadcount[index]+=1
+                #run through it again
+        for c in columns:
+            #run through it once to check booleans
+            c = c.rstrip('\n')
+            if len(header) > index:
+                fieldname = header[index]
+                fieldname = fieldname.rstrip('\n')
             else:
-                #check if we can still count it
-                if ((ignore_tumour and fieldname in tumour) or (ignore_treatment_other and fieldname == "specimen_donor_treatment_type_other") or(ignore_processing_other and fieldname == "specimen_processing_other") or(ignore_storage_other and fieldname == "specimen_storage_other") or(ignore_relationship and fieldname in relationship) or(ignore_relationship_type and fieldname == "relationship_type_other") or(ignore_smoking_intensity and fieldname == "tobacco_smoking_intensity") or (ignore_therapy1 and fieldname in first_therapy) or(ignore_therapy2 and fieldname in second_therapy) or(ignore_other_therapy and fieldname in other_therapy)):
-                            headcount[index]+=1
-                            if isPCAWG(s,filetype):
-                                pheadcount[index]+=1
+                continue
+            if c != "" and c != "-777" and c!="-888" and "unknown" not in c:
+                    headcount[index]+=1
+                    if isPCAWG(s,filetype):
+                        pheadcount[index]+=1
+        
+            else:
+                    #check if we can still count it
+                    if ((ignore_tumour and fieldname in tumour) or (ignore_treatment_other and fieldname == "specimen_donor_treatment_type_other") or(ignore_processing_other and fieldname == "specimen_processing_other") or(ignore_storage_other and fieldname == "specimen_storage_other") or(ignore_relationship and fieldname in relationship) or(ignore_relationship_type and fieldname == "relationship_type_other") or(ignore_smoking_intensity and fieldname == "tobacco_smoking_intensity") or (ignore_therapy1 and fieldname in first_therapy) or(ignore_therapy2 and fieldname in second_therapy) or(ignore_other_therapy and fieldname in other_therapy)):
+                                headcount[index]+=1
+                                if isPCAWG(s,filetype):
+                                    pheadcount[index]+=1
+                         
+                    if fieldname == "relationship_type":
+                        ignore_relationship_type = True
+                        ignore_relationship = True
+                    elif fieldname == "other_therapy":
+                        ignore_other_therapy = True
                      
-                if fieldname == "relationship_type":
-                    ignore_relationship_type = True
-                    ignore_relationship = True
-                elif fieldname == "other_therapy":
-                    ignore_other_therapy = True
-                 
             index+=1 
+    
     count = 0
 
     avgtotal =0;
