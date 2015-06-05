@@ -44,6 +44,8 @@ for filename in os.listdir(directory):
                 if filetype in files:
                     filelist.append(directory+"/"+currentproject+"/"+files) #add this file to our filelist
         if filelist == []:
+	    allpercent.write ("\n")
+	    pallpercent.write ("\n")
             continue
         #run readALL
         parseForWGS.readAll(filelist,pcawgfields)
