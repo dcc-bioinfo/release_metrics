@@ -336,6 +336,8 @@ def getClinicalPercentage (afile,filehandle,allp,pallp):
                 elif fieldname == "first_therapy_type" or fieldname == "second_therapy_type" and int(c) in range (2,12):
                     ignore_other_therapy = True
                 #run through it again
+            index+=1
+        index = 0
         for c in columns:
             #run through it once to check booleans
             c = c.rstrip('\n')
