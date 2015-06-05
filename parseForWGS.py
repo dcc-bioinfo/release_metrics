@@ -281,6 +281,7 @@ def getClinicalPercentage (afile,filehandle,allp,pallp):
     pcawgtotal = 0 #total for projects in PCAWG
 
     for s in currentlist[1:]:
+
         ignore_tumour = False
         ignore_treatment_other = False
         ignore_processing_other = False
@@ -304,47 +305,49 @@ def getClinicalPercentage (afile,filehandle,allp,pallp):
         columns =  re.split (r'\t', s);
         index = 0
         for c in columns:
+            c = c.rstrip('\n')
             if len(header) > index:
                 fieldname = header[index]
+                fieldname = fieldname.rstrip('\n')
             else:
                 continue
             if c != "" and c != "-777" and c!="-888" and "unknown" not in c:
-                if fieldname == "specimen_type" and int(c) in range(101,108):
+                if fieldname == "specimen_type" and int(c) in range(101,109):
                     ignore_tumour= True
-                elif fieldname == "specimen_donor_treatment_type" and int(c) in range(4,11):
+                elif fieldname == "specimen_donor_treatment_type" and int(c) in range(4,12):
                     ignore_treatment_other=True
-                elif fieldname == "specimen_processing" and int(c) in range(1,8):
+                elif fieldname == "specimen_processing" and int(c) in range(1,9):
                     ignore_processing_other=True
-                elif fieldname == "specimen_storage" and int(c) in range(1,6):
-                    ignore_storage_other == True
-                elif fieldname == "donor_has_relative_with_cancer_history":
-                    ignore_relationship == True
+                elif fieldname == "specimen_storage" and int(c) in range(1,7):
+                    ignore_storage_other = True
+                elif fieldname == "donor_has_relative_with_cancer_history" and c == "no":
+                    ignore_relationship = True
                 elif fieldname == "relationship_type" and int(c) == 7:
-                    ignore_relationship == True
-                elif fieldname == "relationship_type" and int(c) in range(1,7):
-                    ignore_relationship_type == True
-                elif fieldname == "tobacco_smoking_history_indicator" and int(c) in range(1,6):
+                    ignore_relationship = True
+                elif fieldname == "relationship_type" and int(c) in range(1,8):
+                    ignore_relationship_type = True
+                elif fieldname == "tobacco_smoking_history_indicator" and (int(c) == 1 or int(c) == 6):
                     ignore_smoking_intensity = True
                 elif fieldname == "first_therapy_type" and int(c) == 1:
                     ignore_therapy1 = True
                 elif fieldname == "second_therapy_type" and int(c) == 1:
                     ignore_therapy2 = True
-                elif fieldname == "first_therapy_type" or fieldname == "second_therapy_type" and int(c) in range (2,11):
+                elif fieldname == "first_therapy_type" or fieldname == "second_therapy_type" and int(c) in range (2,12):
                     ignore_other_therapy = True
                 
-
                 headcount[index]+=1
                 if isPCAWG(s,filetype):
                     pheadcount[index]+=1
             else:
                 #check if we can still count it
                 if ((ignore_tumour and fieldname in tumour) or (ignore_treatment_other and fieldname == "specimen_donor_treatment_type_other") or(ignore_processing_other and fieldname == "specimen_processing_other") or(ignore_storage_other and fieldname == "specimen_storage_other") or(ignore_relationship and fieldname in relationship) or(ignore_relationship_type and fieldname == "relationship_type_other") or(ignore_smoking_intensity and fieldname == "tobacco_smoking_intensity") or (ignore_therapy1 and fieldname in first_therapy) or(ignore_therapy2 and fieldname in second_therapy) or(ignore_other_therapy and fieldname in other_therapy)):
-                        headcount[index]+=1
-                        if isPCAWG(s,filetype):
-                            pheadcount[index]+=1
-                 
+                            headcount[index]+=1
+                            if isPCAWG(s,filetype):
+                                pheadcount[index]+=1
+                     
                 if fieldname == "relationship_type":
                     ignore_relationship_type = True
+                    ignore_relationship = True
                 elif fieldname == "other_therapy":
                     ignore_other_therapy = True
                  
