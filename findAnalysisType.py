@@ -40,16 +40,21 @@ def readFiles (filenames):
 def common_elements(lista,listb):
     return list(set(lista).intersection(listb))
 
+globalcheck = []
+
 def isInData (specimenid,data):
     foundpairs = []
     for pair in data:
         if specimenid == pair[0]:
-            foundpairs.append(pair[1])
+            if [pair[0],pair[1]] not in globalcheck:
+                foundpairs.append(pair[1])
     return foundpairs
+
 
 
 def checkAnalyzed(donorid,specimen,sample,data,table,donorids):
     global idtostrat
+    global globalcheck
     #return all lines in specimen matching
     found = 0
     #matching = [s for s in specimen if donorid in s]
@@ -73,8 +78,9 @@ def checkAnalyzed(donorid,specimen,sample,data,table,donorids):
                 #one donorid can count for a analysis type ONCE, but can count in multiple analysis
                 for a in foundat:
                     seqstrat = idtostrat[a]
-                    if seqstrat not in foundseqstrats:
+                    if seqstrat not in foundseqstrats and [donorid,seqstrat] not in globalcheck:
                         foundseqstrats.append(seqstrat)
+                        globalcheck.append([donorid,seqstrat])
                         table[seqstrat] +=1
                     found = 1
     #check if this donor only got no data 
@@ -174,7 +180,7 @@ def main(go):
                 continue
             if not os.path.isfile(filename):
                 for files in os.listdir(directory+"/"+filename):
-                    if not files.startswith('.') and ".bak" not in files:
+                    if not files.startswith('.') and ".bak" not in files and "no_detect" not in files:
                         if "donor" in files:
                             if "pancancer" not in files:
                                 donorfilelist.append(directory+"/"+filename+"/"+files)
@@ -199,7 +205,8 @@ def main(go):
                 #get the donor_id from the line
                 potential_id = someid[0]
                 if checkAnalyzed(potential_id,specimen,sample,data,idtostrat,donorids) == 1:
-                    donorids.append(someid[0])
+                    if potential_id not in donorids:
+                        donorids.append(someid[0])
                     #sys.stdout.write someid[0]
 
             total += len(donorids)
@@ -217,6 +224,8 @@ def main(go):
         sys.stdout.write (str(idtostrat["non-NGS"])+"\t")
         sys.stdout.write (str(idtostrat["AMPLICON"])+"\t")
         sys.stdout.write (str(idtostrat["No-Data"])+"\t")
+
+        print len(donorids)
         
                             
 #need to run "main" on every file group
