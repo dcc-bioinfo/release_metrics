@@ -9,6 +9,8 @@ import gzip
 
 directory = sys.argv[1]
 filetype = sys.argv[2]
+#since only determining PCAWG donors requires several files together, this list is reserved for when we need it
+corethree = ['donor','specimen','sample','therapy','family','exposure']
 
 #open the directory to view the projects
 
@@ -22,7 +24,7 @@ pcawgfields = open ("pcawgfields.txt",'r')
 pcawgfields = pcawgfields.readlines()
 pcawgfields = map (lambda s: s.strip(), pcawgfields)
 
-#print header to summary files
+#we print header to the summary for now since we don't know what they contain yet
 allpercent.write ("filler\n")
 pallpercent.write ("filler\n")
 
@@ -40,7 +42,7 @@ for filename in os.listdir(directory):
     if not os.path.isfile(filename) and not filename.startswith('.') and "TEST" not in filename:
         for files in os.listdir(directory+"/"+currentproject):
             if not files.startswith('.') and "no_detect" not in files:
-                #check if file is .gz
+
                 if filetype in files:
                     filelist.append(directory+"/"+currentproject+"/"+files) #add this file to our filelist
         if filelist == []:

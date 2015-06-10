@@ -225,7 +225,6 @@ def main(go):
         sys.stdout.write (str(idtostrat["AMPLICON"])+"\t")
         sys.stdout.write (str(idtostrat["No-Data"])+"\t")
 
-        print len(donorids)
         
                             
 #need to run "main" on every file group

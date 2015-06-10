@@ -54,7 +54,7 @@ def trimData(data,group):
     for s in data:
         sampleid = re.split (r'\t',s)
         if group == "dna":
-            #we care about the sequencing strategy here
+            #we care about the sequencing strategy here (for DNA)
             if sampleid[10] == "3" or sampleid[10] == "1" or sampleid[10] == "2" or sampleid[10] == "WGA" or sampleid[10] == "WGS" or sampleid[10] == "WXS":
                newdata.append(sampleid[1])
         else:
@@ -75,7 +75,6 @@ def main(go):
     directory = sys.argv[1]
 
     #open the directory to view the projects
-
     total = 0
 
 
