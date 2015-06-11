@@ -296,7 +296,7 @@ def getClinicalPercentage (afile,filehandle,allp,pallp):
         ignore_therapy2 = False
         ignore_other_therapy = False
 
-
+        
         #go through each line. A line should typically dictate 1 donor/specimen/sample
         s.rstrip('\n')
         totaldonors+=1

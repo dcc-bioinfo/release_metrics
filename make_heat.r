@@ -18,7 +18,7 @@ rownames(mata) = countries
 
 other_palette <- colorRampPalette (c("red2","yellow2","green2"))(n=100)
 
-heatmap.2 (mata,Rowv=NA,dendrogram="none",Colv=NA,scale="none",margins=c(22,8),col=other_palette,cexRow=0.6,density.info="none",trace="none",lhei=c(0.1,0.5),hclustfun=myclust,distfun=dist,labRow=rnames,
+heatmap.2 (mata,dendrogram="none",Colv=NA,scale="none",margins=c(22,8),col=other_palette,cexRow=0.5,density.info="none",trace="none",lhei=c(0.1,0.5),hclustfun=myclust,distfun=dist,labRow=rnames,
     RowSideColors = c(
         rep("tan",4),
         rep("yellowgreen",1),
@@ -42,7 +42,7 @@ heatmap.2 (mata,Rowv=NA,dendrogram="none",Colv=NA,scale="none",margins=c(22,8),c
 )
  par(lend=1)
     legend("bottomleft",
-    legend = c("AU","BR","CA","CN","EU/FR","EU","FR","GE","IN","IT","JP","SA","SI","KR","SP","TAR-US","TCGA","UK"),
+    legend = c("AU","BR","CA","CN","EU/FR","EU","FR","GE","IN","IT","JP","SA","SG","KR","SP","TAR-US","TCGA","UK"),
         col = c("tan","yellowgreen","green","salmon","blue","rosybrown","palegreen","brown4","blueviolet","coral","slategray3","gold","steelblue","darkred","pink","cyan3","aquamarine","red"),
         lty=1,
         lwd=10,
