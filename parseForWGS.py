@@ -304,6 +304,7 @@ def getClinicalPercentage (afile,filehandle,allp,pallp):
             pcawgtotal+=1
         columns =  re.split (r'\t', s);
         index = 0
+        # ---first pass----
         for c in columns:
             #run through it once to check booleans
             c = c.rstrip('\n')
@@ -312,16 +313,16 @@ def getClinicalPercentage (afile,filehandle,allp,pallp):
                 fieldname = fieldname.rstrip('\n')
             else:
                 continue
-            if c != "" and c != "-777" and c!="-888" and "unknown" not in c:
+            if c != "" and c != "-777" and c!="-888" and "unknown" not in c and c !="3":
                 if fieldname == "specimen_type" and int(c) in range(101,109):
                     ignore_tumour= True
-                elif fieldname == "specimen_donor_treatment_type" and int(c) in range(4,12):
+                elif fieldname == "specimen_donor_treatment_type" and int(c) in range(1,12) and int(c) != 8:
                     ignore_treatment_other=True
                 elif fieldname == "specimen_processing" and int(c) in range(1,9):
                     ignore_processing_other=True
                 elif fieldname == "specimen_storage" and int(c) in range(1,7):
                     ignore_storage_other = True
-                elif fieldname == "donor_has_relative_with_cancer_history" and c == "no":
+                elif fieldname == "donor_has_relative_with_cancer_history" and (c == "no" or c == "3"):
                     ignore_relationship = True
                 elif fieldname == "relationship_type" and int(c) == 7:
                     ignore_relationship = True
@@ -333,13 +334,21 @@ def getClinicalPercentage (afile,filehandle,allp,pallp):
                     ignore_therapy1 = True
                 elif fieldname == "second_therapy_type" and int(c) == 1:
                     ignore_therapy2 = True
-                elif fieldname == "first_therapy_type" or fieldname == "second_therapy_type" and int(c) in range (2,12):
+                elif fieldname == "first_therapy_type" or fieldname == "second_therapy_type" and int(c) in range (2,12) and int(c) != 8:
                     ignore_other_therapy = True
                 #run through it again
+            else:
+                if fieldname == "relationship_type":
+                        ignore_relationship_type = True
+                        ignore_relationship = True
+                elif fieldname == "other_therapy":
+                        ignore_other_therapy = True
             index+=1
+            #---first pass end---
         index = 0
+        # ---second pass---
         for c in columns:
-            #run through it once to check booleans
+            #run through it and count filled fields
             c = c.rstrip('\n')
             if len(header) > index:
                 fieldname = header[index]
@@ -358,16 +367,9 @@ def getClinicalPercentage (afile,filehandle,allp,pallp):
                                 if isPCAWG(s,filetype):
                                     pheadcount[index]+=1
                          
-                    if fieldname == "relationship_type":
-                        ignore_relationship_type = True
-                        ignore_relationship = True
-                    elif fieldname == "other_therapy":
-                        ignore_other_therapy = True
-                     
             index+=1 
-    
+        # ---second pass end ----
     count = 0
-
     avgtotal =0;
     pcavgtotal=0;
 
