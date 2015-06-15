@@ -336,8 +336,8 @@ def getClinicalPercentage (afile,filehandle,allp,pallp):
                     ignore_therapy2 = True
                 elif fieldname == "first_therapy_type" or fieldname == "second_therapy_type" and int(c) in range (2,12) and int(c) != 8:
                     ignore_other_therapy = True
-                #run through it again
             else:
+                #when the field is NA, fill the appropriate booleans
                 if fieldname == "relationship_type":
                         ignore_relationship_type = True
                         ignore_relationship = True
@@ -359,7 +359,6 @@ def getClinicalPercentage (afile,filehandle,allp,pallp):
                     headcount[index]+=1
                     if isPCAWG(s,filetype):
                         pheadcount[index]+=1
-        
             else:
                     #check if we can still count it
                     if ((ignore_tumour and fieldname in tumour) or (ignore_treatment_other and fieldname == "specimen_donor_treatment_type_other") or(ignore_processing_other and fieldname == "specimen_processing_other") or(ignore_storage_other and fieldname == "specimen_storage_other") or(ignore_relationship and fieldname in relationship) or(ignore_relationship_type and fieldname == "relationship_type_other") or(ignore_smoking_intensity and fieldname == "tobacco_smoking_intensity") or (ignore_therapy1 and fieldname in first_therapy) or(ignore_therapy2 and fieldname in second_therapy) or(ignore_other_therapy and fieldname in other_therapy)):
@@ -373,6 +372,8 @@ def getClinicalPercentage (afile,filehandle,allp,pallp):
     avgtotal =0;
     pcavgtotal=0;
 
+    print pcawgtotal
+
     #write to all tables and logfile
     if filetype == "donor":
         filehandle.write ("field_name\tdcc_completion\tPCAWG_completion\n")
@@ -383,6 +384,7 @@ def getClinicalPercentage (afile,filehandle,allp,pallp):
         filehandle.write (field+"\t"+"{:.1%}".format(headcount[count]/totaldonors)+"\t")
         allp.write ("{:.1%}".format(headcount[count]/totaldonors)+"\t")
         avgtotal += headcount[count]/totaldonors
+        
         if pcawgtotal != 0:
             filehandle.write ("{:.1%}".format(pheadcount[count]/pcawgtotal)+"\n")
             pallp.write ("{:.1%}".format(pheadcount[count]/pcawgtotal)+"\t")
@@ -393,7 +395,6 @@ def getClinicalPercentage (afile,filehandle,allp,pallp):
         count+=1
 
     return [avgtotal,pcavgtotal,len(headcount)]
-
 
 def getWGS (release,projkey,output,alldiat): #STR STR FILEHANDLE FILEHANDLE
 

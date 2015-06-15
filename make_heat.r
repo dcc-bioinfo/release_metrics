@@ -18,7 +18,7 @@ rownames(mata) = countries
 
 other_palette <- colorRampPalette (c("red2","yellow2","green2"))(n=100)
 
-heatmap.2 (mata,dendrogram="none",Colv=NA,scale="none",margins=c(22,8),col=other_palette,cexRow=0.5,density.info="none",trace="none",lhei=c(0.1,0.5),hclustfun=myclust,distfun=dist,labRow=rnames,
+heatmap.2 (mata,Rowv=NA,dendrogram="none",Colv=NA,scale="none",margins=c(22,8),col=other_palette,cexRow=0.5,density.info="none",trace="none",lhei=c(0.1,0.5),hclustfun=myclust,distfun=dist,labRow=rnames,
     RowSideColors = c(
         rep("tan",4),
         rep("yellowgreen",1),

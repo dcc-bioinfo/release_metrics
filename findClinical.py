@@ -35,6 +35,8 @@ for filename in os.listdir(directory):
 
     allpercent.write (currentproject+"\t")
     pallpercent.write (currentproject+"\t")
+
+    print currentproject,
     #open a file for this
     out = open (currentproject+"_clinical_percentages.txt",'w')
     filelist=[]
