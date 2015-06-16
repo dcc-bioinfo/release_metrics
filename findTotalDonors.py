@@ -73,6 +73,7 @@ def main(go):
     #groups = ["all"]
 
     directory = sys.argv[1]
+     
 
     #open the directory to view the projects
     total = 0
@@ -145,10 +146,11 @@ def main(go):
             if group == "dna":
                 wholegenomes = donorids
                 sys.stdout.write (filename+"\t")
-                sys.stdout.write (str(len(wholegenomes)))
+                sys.stdout.write ("100\t")
+                #sys.stdout.write (str(len(wholegenomes)))
             else:
-                sys.stdout.write ("\t"+str(len(common_elements(donorids,wholegenomes))))
-    sys.stdout.write (str(total))
+                sys.stdout.write ("\t","{:.1%}".format(len(common_elements(donorids,wholegenomes))/wholegenomes))
+    #sys.stdout.write (str(total))
 
 #need to run "main" on every file group
 main("guu")
