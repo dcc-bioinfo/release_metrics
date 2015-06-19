@@ -89,13 +89,13 @@ def main(go):
             elif group == "rnaseq":
                 flist = ["mirna_seq_m","exp_seq_m"]
             elif group == "epigenome":
-                flist = ["meth_seq_m"]
+                flist = ["meth_seq_m","meth_array_m"]
             elif group == "protein":
                 #no sequencing strategy
                 flist = ["pexp_m"]
             elif group == "arraybase":
                 #no sequencing strategy
-                flist = ["exp_array_m","meth_array_m"]
+                flist = ["exp_array_m"]
 
             metafilelist=[]
             donorfilelist=[]
