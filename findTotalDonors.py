@@ -68,7 +68,11 @@ def main(go):
     sample = [] #list containing all sample files
     data = [] #list containing metadata (everything with _m)
 
-    groups = ["dna","rnaseq","epigenome","protein","arraybase"]
+    #open file that contains commitment data
+    #commitfile = open(sys.argv[2],'r')
+    #commitlines = commitfile.readlines()
+
+    groups = ["dna","rnaseq","arraybase","epigenome","protein"]
 
     #groups = ["all"]
 
@@ -143,13 +147,19 @@ def main(go):
                         #sys.stdout.write someid[0]
 
             total += len(donorids)
+            anchor = 1
+            #multiplier = wgs/anchor
             if group == "dna":
+                # find the "goal" number, offset everything by that 
                 wholegenomes = donorids
                 sys.stdout.write (filename+"\t")
                 sys.stdout.write ("100\t")
                 #sys.stdout.write (str(len(wholegenomes)))
             else:
-                sys.stdout.write ("\t","{:.1%}".format(len(common_elements(donorids,wholegenomes))/wholegenomes))
+                if wholegenomes != []:
+                    sys.stdout.write ("\t","{:.1%}".format(len(common_elements(donorids,wholegenomes))/wholegenomes))
+                else:
+                    sys.stdout.write("\t0")
     #sys.stdout.write (str(total))
 
 #need to run "main" on every file group

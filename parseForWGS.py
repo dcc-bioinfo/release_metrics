@@ -396,7 +396,7 @@ def getClinicalPercentage (afile,filehandle,allp,pallp):
 
     return [avgtotal,pcavgtotal,len(headcount)]
 
-def getWGS (release,projkey,output,alldiat): #STR STR FILEHANDLE FILEHANDLE
+def getWGS (release,projkey,output,alldat): #STR STR FILEHANDLE FILEHANDLE
 
     #these are the sequencing strategies in wholegenome files that contribute o the count
 
@@ -426,10 +426,10 @@ def getWGS (release,projkey,output,alldiat): #STR STR FILEHANDLE FILEHANDLE
     arraybase = ["meth_array","exp_array"] #these don't have sequencing strategies, need to do a cross-check with final whole genome count
 
     filelist.extend(wholegenome)
-    filelist.extend(rnaseq)
-    filelist.extend(epigen)
-    filelist.extend(protein)
-    filelist.extend(arraybase)
+    #filelist.extend(rnaseq)
+    #filelist.extend(epigen)
+    #filelist.extend(protein)
+    #filelist.extend(arraybase)
 
 
     #attempt to download each file
@@ -440,10 +440,10 @@ def getWGS (release,projkey,output,alldiat): #STR STR FILEHANDLE FILEHANDLE
             #command = "curl --fail -o "+filename+".gz https://dcc.icgc.org/api/v1/download?fn=/legacy_data_releases/release_"+str(release)+"/"+projkey+"/"+filename+"."+projkey+".tsv.gz"
             pass
         elif release == '14': #14 and 15 don't have project page
-            command = "curl --fail -o "+filename+".gz https://dcc.icgc.org/api/v1/download?fn=/release_"+str(release)+"/"+projkey+"/"+filename+"."+projkey+".tsv.gz"
+            command = "curl --fail -o "+filename+" https://dcc.icgc.org/api/v1/download?fn=/release_"+str(release)+"/"+projkey+"/"+filename+"."+projkey+".tsv.gz"
             check = "curl --fail --silent --head -o /dev/null https://dcc.icgc.org/api/v1/download?fn=/release_"+str(release)+"/"+projkey+"/"+filename+"."+projkey+".tsv.gz"
         elif release == '15': #15 needs to be 15.1 
-            command = "curl --fail -o "+filename+".gz https://dcc.icgc.org/api/v1/download?fn=/release_"+str(release)+".1/"+projkey+"/"+filename+"."+projkey+".tsv.gz"
+            command = "curl --fail -o "+filename+" https://dcc.icgc.org/api/v1/download?fn=/release_"+str(release)+".1/"+projkey+"/"+filename+"."+projkey+".tsv.gz"
             check = "curl --fail --silent --head -o /dev/null https://dcc.icgc.org/api/v1/download?fn=/release_"+str(release)+".1/"+projkey+"/"+filename+"."+projkey+".tsv.gz"
         else: #16 to 18 and hopefully beyond
             command = "curl --fail -o "+filename+" https://dcc.icgc.org/api/v1/download?fn=/release_"+str(release)+"/Projects/"+projkey+"/"+filename+"."+projkey+".tsv.gz"
@@ -498,8 +498,8 @@ def getWGS (release,projkey,output,alldiat): #STR STR FILEHANDLE FILEHANDLE
 
         dindex = header.index('icgc_donor_id')
 
-#        print "Sequencing Strategy Index:", sindex
-#        print "Donor ID index:", dindex
+        #print "Sequencing Strategy Index:", sindex
+        #print "Donor ID index:", dindex
 
         for d in input:
             line =  re.split (r'\t', d)

@@ -56,6 +56,7 @@ releasedates = {
         16 :  date(2014, 5, 15),
         17 :  date(2014, 9, 12),
         18 :  date(2015, 1, 15),
+        19 :  date(2015, 6, 16)
         }
 
 
@@ -71,7 +72,7 @@ first100 = 0
 
 #since release 13 and 14 are on the same date, release 13 doesn't really matter. If it was introduced in release 13, we can assume it was released in 14. Then, we check release 12 to see if 2 years have already passed.
 
-for release in range (14,19): #release 13 and below uses legacy format
+for release in range (14,20): #release 13 and below uses legacy format
 
     total = parseForWGS.getWGS(str(release),projkey,output,alldat) #STR STR FILEHANDLE
 
@@ -94,7 +95,7 @@ for release in range (14,19): #release 13 and below uses legacy format
 
 
 if initial == 0:
-    print "Project was not found in release 14-18."
+    print "Project was not found in release 14-19."
     #remove data
     os.remove(projkey+".data")
     alldat.write("\n")
@@ -123,9 +124,9 @@ def determineEmbargo (initial, first100): #DATEOBJECT DATEOBJECT
 
     if (initial <= 12): #since the project existed at release 12, we can assume that it has been 2 years.
         print "Release is more than 2 years old"
-        print "No restrictions"
-        output.write ("No restrictions")
-        alldat.write ("No restrictions")
+        print "No Embargo"
+        output.write ("No Embargo")
+        alldat.write ("No Embargo")
     elif (first100 == 0):  #never got 100, calculate 2 years
         print "Does not have 100 wgs"
         if ((releasedates[initial] + twoyear) > today):
@@ -134,9 +135,9 @@ def determineEmbargo (initial, first100): #DATEOBJECT DATEOBJECT
             output.write ((releasedates[initial]+twoyear).isoformat())
             alldat.write ((releasedates[initial]+twoyear).isoformat())
         else:
-            print "No restrictions"
-            output.write ("No restrictions")
-            alldat.write ("No restrictions")
+            print "No Embargo"
+            output.write ("No Embargo")
+            alldat.write ("No Embargo")
     elif (initial == first100): #case 2, had 100 form beginning
         print "Had 100 wgs at release"
         if ((releasedates[initial] + oneyear) > today):
@@ -145,9 +146,9 @@ def determineEmbargo (initial, first100): #DATEOBJECT DATEOBJECT
             output.write ((releasedates[initial]+oneyear).isoformat())
             alldat.write ((releasedates[initial]+oneyear).isoformat())
         else:
-            print "No restrictions"
-            output.write ("No restrictions")
-            alldat.write ("No restrictions")
+            print "No Embargo"
+            output.write ("No Embargo")
+            alldat.write ("No Embargo")
     elif (initial < first100): #case 3 and 4
         timeperiod = releasedates[first100] - releasedates[initial]
         if timeperiod.days > 365:
@@ -159,9 +160,9 @@ def determineEmbargo (initial, first100): #DATEOBJECT DATEOBJECT
                output.write ((releasedates[initial]+twoyear).isoformat())
                alldat.write ((releasedates[initial]+twoyear).isoformat())
             else:
-                print "No restrictions"
-                output.write ("No restrictions")
-                alldat.write ("No restrictions")
+                print "No Embargo"
+                output.write ("No Embargo")
+                alldat.write ("No Embargo")
         else:
             #1 year from first100
             print "100 wgs reached within 1 year"
@@ -171,9 +172,9 @@ def determineEmbargo (initial, first100): #DATEOBJECT DATEOBJECT
                output.write ((releasedates[first100]+oneyear).isoformat())
                alldat.write ((releasedates[first100]+oneyear).isoformat())
             else:
-                print "No restrictions"
-                output.write ("No restrictions")
-                alldat.write ("No restrictions")
+                print "No Embargo"
+                output.write ("No Embargo")
+                alldat.write ("No Embargo")
 
  
     output.write ("\nInitial Release: "+str(initial)+"(or before if 12),reached 100 whole genomes on release "+str(first100)+"(0 means it never reached 100)")
