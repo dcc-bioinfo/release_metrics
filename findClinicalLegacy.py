@@ -57,6 +57,8 @@ def main():
 
     allpercent = open ("all_clinical.txt",'w')
 
+    inclist = ["clinical","snp","sample"] # list of "non-clinical" legacy files to ignore
+
     #we print header to the summary for now since we don't know what they contain yet
     allpercent.write ("filler\n")
 
@@ -74,7 +76,9 @@ def main():
         if not os.path.isfile(filename) and not filename.startswith('.') and "TEST" not in filename and "README" not in filename:
             for files in os.listdir(directory+"/"+currentproject):
                 if not files.startswith('.') and "no_detect" not in files and "README" not in files:
-                    filelist.append(directory+"/"+currentproject+"/"+files) #add this file to our filelist
+                    for e in inclist: 
+                        if e in files:
+                            filelist.append(directory+"/"+currentproject+"/"+files) #add this file to our filelist
             if filelist == []:
               allpercent.write ("\n")
               continue
