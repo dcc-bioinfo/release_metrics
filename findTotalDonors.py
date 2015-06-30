@@ -119,7 +119,7 @@ def main(go):
                 continue
             if not os.path.isfile(filename):
                 for files in os.listdir(directory+"/"+filename):
-                    if not files.startswith('.') and ".bak" not in files:
+                    if not files.startswith('.') and ".bak" not in files and "migration" not in files:
                         if "donor" in files:
                             if "pancancer" not in files:
                                 donorfilelist.append(directory+"/"+filename+"/"+files)
