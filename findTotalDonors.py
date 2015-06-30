@@ -156,7 +156,10 @@ def main(go):
             matching = [x for x in anchorlines if filename in x]
             if matching != []:
                 matchsplit = matching[0].rsplit('\t')
-                anchor = int(matchsplit[4])
+                if matchsplit[4] != '':
+                    anchor = int(matchsplit[4])
+                else:
+                    anchor = 1
             else:
                 anchor = 1
 
