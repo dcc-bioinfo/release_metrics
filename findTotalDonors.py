@@ -77,7 +77,11 @@ def main(go):
     #groups = ["all"]
 
     directory = sys.argv[1]
-     
+
+    anchorfilename = sys.argv[2]
+    
+    anchorfile = open(anchorfilename,'r')
+    anchorlines = anchorfile.readlines()
 
     #open the directory to view the projects
     total = 0
@@ -147,17 +151,25 @@ def main(go):
                         #sys.stdout.write someid[0]
 
             total += len(donorids)
-            anchor = 1
-            #multiplier = wgs/anchor
+
+            #find the commitment number for this project
+            matching = [x for x in anchorlines if filename in x]
+            if matching != "":
+                matchsplit = matching[0].rsplit('\t')
+                anchor = int(matchsplit[4])
+            else:
+                anchor = 1
+
             if group == "dna":
                 # find the "goal" number, offset everything by that 
                 wholegenomes = donorids
                 sys.stdout.write (filename+"\t")
-                sys.stdout.write ("100\t")
+                multiplier = len(wholegenomes)/anchor
+                sys.stdout.write (str(100*multiplier))
                 #sys.stdout.write (str(len(wholegenomes)))
             else:
                 if wholegenomes != []:
-                    sys.stdout.write ("\t","{:.1%}".format(len(common_elements(donorids,wholegenomes))/wholegenomes))
+                    sys.stdout.write ("\t"+"{:.1%}".format(len(common_elements(donorids,wholegenomes))/len(wholegenomes)*multiplier))
                 else:
                     sys.stdout.write("\t0")
     #sys.stdout.write (str(total))
