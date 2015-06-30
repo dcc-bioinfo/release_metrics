@@ -169,6 +169,8 @@ def main(go):
                 sys.stdout.write (filename+"\t")
                 if anchor != 1:
                     multiplier = len(wholegenomes)/anchor
+                    if multiplier > 1:
+                        multiplier = 1
                 else:
                     multiplier = 1
                 sys.stdout.write (str(100*multiplier))
