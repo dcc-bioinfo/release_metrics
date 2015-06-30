@@ -154,7 +154,7 @@ def main(go):
 
             #find the commitment number for this project
             matching = [x for x in anchorlines if filename in x]
-            if matching != "":
+            if matching != []:
                 matchsplit = matching[0].rsplit('\t')
                 anchor = int(matchsplit[4])
             else:
