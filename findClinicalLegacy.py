@@ -57,7 +57,7 @@ def main():
 
     allpercent = open ("all_clinical.txt",'w')
 
-    inclist = ["clinical","snp","sample"] # list of "non-clinical" legacy files to ignore
+    inclist = ["clinical","sample"] # list of "non-clinical" legacy files to ignore
 
     #we print header to the summary for now since we don't know what they contain yet
     allpercent.write ("filler\n")
