@@ -115,11 +115,11 @@ def main(go):
             #then skip rest
 
             #open this project folder
-            if "TEST" in filename:
+            if "TEST" in filename or "migration" in filename:
                 continue
             if not os.path.isfile(filename):
                 for files in os.listdir(directory+"/"+filename):
-                    if not files.startswith('.') and ".bak" not in files and "migration" not in files:
+                    if not files.startswith('.') and ".bak" not in files:
                         if "donor" in files:
                             if "pancancer" not in files:
                                 donorfilelist.append(directory+"/"+filename+"/"+files)
