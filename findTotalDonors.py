@@ -156,7 +156,7 @@ def main(go):
             matching = [x for x in anchorlines if filename in x]
             if matching != []:
                 matchsplit = matching[0].rsplit('\t')
-                if matchsplit[4] != '':
+                if matchsplit[4] != "\n":
                     anchor = int(matchsplit[4])
                 else:
                     anchor = 1
@@ -167,7 +167,10 @@ def main(go):
                 # find the "goal" number, offset everything by that 
                 wholegenomes = donorids
                 sys.stdout.write (filename+"\t")
-                multiplier = len(wholegenomes)/anchor
+                if anchor != 1:
+                    multiplier = len(wholegenomes)/anchor
+                else:
+                    multiplier = 1
                 sys.stdout.write (str(100*multiplier))
                 #sys.stdout.write (str(len(wholegenomes)))
             else:
