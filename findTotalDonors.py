@@ -95,7 +95,7 @@ def main(go):
             if group == "dna":
                 flist = ["ssm_m","stsm_m","cnsm_m","jcn_m"]
             elif group == "rnaseq":
-                flist = ["mirna_seq_m","exp_seq_m"]
+                flist = ["mirna_seq_m","exp_seq_m","exp_m","mirna_m"]
             elif group == "epigenome":
                 flist = ["meth_seq_m","meth_array_m"]
             elif group == "protein":
