@@ -1,1 +1,86 @@
-MELA-AU	Skin Cancer - AU		Australia	138OV-AU	Ovarian Cancer - AU		Australia	150PACA-AU	Pancreatic Cancer - AU		Australia	375PAEN-AU	Pancreatic Cancer Endocrine neoplasms - AU		Australia	100SKCA-BR	Skin Adenocarcinoma - BR		Brazil	100PACA-CA	Pancreatic Cancer - CA		Canada	375PEME-CA	Pediatric Medulloblastoma - CA		Canada	1000PRAD-CA	Prostate Adenocarcinoma - CA		Canada	500BLCA-CN	Bladder Urothelial carcinoma - CN		China	100BRCA-CN	Breast Triple Negative Cancer - CN		China	50COCA-CN	Colorectal Cancer - CN		China	500ESCA-CN	Esophageal Cancer - CN		China	500GACA-CN	Gastric Cancer - CN		China	500GBM-CN	Glioblastoma multiforme - CN		China	50LAML-CN	Acute myeloid leukaemia and Chronic myelogenous leukaemia		China	100LICA-CN	Liver Cancer - CN		China	500LUSC-CN	Lung Squamous cell carcinoma - CN		China	50NACA-CN	Nasopharyngeal cancer - CN		China	500OV-CN	Ovarian cancer - CN		China	50PACA-CN	Pancreatic Ductal adenocarcinoma - CN		China	50PRAD-CN	Prostate cancer - CN		China	50RECA-CN	Renal clear cell carcinoma - CN		China	50THCA-CN	Thyroid papillary carcinoma - CN		China	50Project Key	Project Name		Country	RECA-EU	Renal Cell Cancer - EU/FR		European Union/France	500BRCA-EU	Breast ER+ and HER2- Cancer - EU/UK		European Union/United Kingdom	500BOCA-FR	Bone Cancer - Ewing Sarcoma - FR		France	100BRCA-FR	Breast Cancer - FR		France	500LIAD-FR	Benign Liver Tumour - FR		France	LICA-FR	Liver Cancer - FR		France	500LIHM-FR	Liver Hepatocellular Macronodules - FR		France	LMS-FR	Soft tissue cancer - Leiomyosarcoma - FR		France	50RTBL-FR	Eye cancer - Retinoblastoma - FR		France	EOPC-DE	Early Onset Prostate Cancer - DE		Germany	250MALY-DE	Malignant Lymphoma - DE		Germany	500PBCA-DE	Pediatric Brain Cancer - DE		Germany	500ORCA-IN	Oral Cancer - IN		India	500PACA-IT	Pancreatic Cancer - IT		Italy	250LINC-JP	"Liver Cancer - NCC, JP"		Japan	500LIRI-JP	"Liver Cancer - RIKEN, JP"		Japan	500BRCA-MX	"Breast Cancer - SIGMA, MX"		Mexico	80HNCA-MX	"Head and Neck Cancer - SIGMA, MX"		Mexico	80NHLY-MX	"Non Hodgkin Lymphoma - SIGMA, MX"		Mexico	80THCA-SA	Thyroid Cancer - SA		Saudi Arabia	500BTCA-SG	Biliary tract cancer - Gall bladder cancer/Cholangiocarcinoma - SG		Singapore	100BRCA-KR	Breast Cancer - KR		South Korea	350LAML-KR	Acute Myeloid Leukemia - KR		South Korea	200LUSC-KR	Lung Cancer - Squamous cell carcinoma - KR		South Korea	100CLLE-ES	Chronic Lymphocyclic Leukemia - ES		Spain	500ALL-US	Acute Lymphoblastic Leukemia Ð US		"TARGET, US"	100AML-US	"Acute Myeloid Leukemia - TARGET, US"		"TARGET, US"	300CCSK-US	"Clear Cell Sarcomas of the Kidney - TARGET, US"		"TARGET, US"	500NBL-US	"Neuroblastoma - TARGET, US"		"TARGET, US"	50OS-US	"Osteosarcoma - TARGET, US"		"TARGET, US"	300RT-US	"Rhabdoid Tumors - TARGET, US"		"TARGET, US"	300WT-US	"Wilms Tumor - TARGET, US"		"TARGET, US"	100BLCA-US	"Bladder Urothelial Cancer - TGCA, US"		"TCGA, US"	350BRCA-US	"Breast Cancer - TCGA, US"		"TCGA, US"	1000CESC-US	"Cervical Squamous Cell Carcinoma - TCGA, US"		"TCGA, US"	250COAD-US	"Colon Adenocarcinoma - TCGA, US"		"TCGA, US"	600DLBC-US	"Lymphoid Neoplasm Diffuse Large B-cell Lymphoma - TCGA, US"		"TCGA, US"	100GBM-US	"Brain Glioblastoma Multiforme - TCGA, US"		"TCGA, US"	500HNSC-US	"Head and Neck Squamous Cell Carcinoma - TCGA, US"		"TCGA, US"	500KICH-US	"Kidney Chromophobe - TCGA, US"		"TCGA, US"	100KIRC-US	"Kidney Renal Clear Cell Carcinoma - TCGA, US"		"TCGA, US"	500KIRP-US	"Kidney Renal Papillary Cell Carcinoma - TCGA, US"		"TCGA, US"	300LAML-US	"Acute Myeloid Leukemia - TCGA, US"		"TCGA, US"	200LGG-US	"Brain Lower Grade Gliona - TCGA, US"		"TCGA, US"	500LIHC-US	"Liver Hepatocellular carcinoma - TCGA, US"		"TCGA, US"	300LUAD-US	"Lung Adenocarcinoma - TCGA, US"		"TCGA, US"	500LUSC-US	"Lung Squamous Cell Carcinoma - TCGA, US"		"TCGA, US"	500OV-US	"Ovarian Serous Cystadenocarcinoma - TCGA, US"		"TCGA, US"	550PAAD-US	"Pancreatic Cancer - TCGA, US"		"TCGA, US"	300PRAD-US	"Prostate Adenocarcinoma - TCGA, US"		"TCGA, US"	500PRCA-FR	Prostate cancer - Adenocarcinoma - FR		"TCGA, US"	READ-US	"Rectum Adenocarcinoma - TCGA, US"		"TCGA, US"	600SARC-US	"Sarcoma - TCGA, US"		"TCGA, US"	300SKCM-US	"Skin Cutaneous melanoma - TCGA, US"		"TCGA, US"	500STAD-US	"Gastric Adenocarcinoma - TCGA, US"		"TCGA, US"	250THCA-US	"Head and Neck Thyroid Carcinoma - TCGA, US"		"TCGA, US"	500UCEC-US	"Uterine Corpus Endometrial Carcinoma- TCGA, US"		"TCGA, US"	500BOCA-UK	Bone Cancer - UK		United Kingdom	500BRCA-UK	Breast Triple Negative/Lobular Cancer - UK		United Kingdom	500CMDI-UK	Chronic Myeloid Disorders - UK		United Kingdom	500ESAD-UK	Esophageal Adenocarcinoma - UK		United Kingdom	500PRAD-UK	Prostate Adenocarcinoma - UK		United Kingdom	400
+MELA-AU	Skin Cancer - AU		Australia	138
+OV-AU	Ovarian Cancer - AU		Australia	150
+PACA-AU	Pancreatic Cancer - AU		Australia	375
+PAEN-AU	Pancreatic Cancer Endocrine neoplasms - AU		Australia	100
+SKCA-BR	Skin Adenocarcinoma - BR		Brazil	100
+PACA-CA	Pancreatic Cancer - CA		Canada	375
+PEME-CA	Pediatric Medulloblastoma - CA		Canada	1000
+PRAD-CA	Prostate Adenocarcinoma - CA		Canada	500
+BLCA-CN	Bladder Urothelial carcinoma - CN		China	100
+BRCA-CN	Breast Triple Negative Cancer - CN		China	50
+COCA-CN	Colorectal Cancer - CN		China	500
+ESCA-CN	Esophageal Cancer - CN		China	500
+GACA-CN	Gastric Cancer - CN		China	500
+GBM-CN	Glioblastoma multiforme - CN		China	50
+LAML-CN	Acute myeloid leukaemia and Chronic myelogenous leukaemia		China	100
+LICA-CN	Liver Cancer - CN		China	500
+LUSC-CN	Lung Squamous cell carcinoma - CN		China	50
+NACA-CN	Nasopharyngeal cancer - CN		China	500
+OV-CN	Ovarian cancer - CN		China	50
+PACA-CN	Pancreatic Ductal adenocarcinoma - CN		China	50
+PRAD-CN	Prostate cancer - CN		China	50
+RECA-CN	Renal clear cell carcinoma - CN		China	50
+THCA-CN	Thyroid papillary carcinoma - CN		China	50
+Project Key	Project Name		Country	
+RECA-EU	Renal Cell Cancer - EU/FR		European Union/France	500
+BRCA-EU	Breast ER+ and HER2- Cancer - EU/UK		European Union/United Kingdom	500
+BOCA-FR	Bone Cancer - Ewing Sarcoma - FR		France	100
+BRCA-FR	Breast Cancer - FR		France	500
+LIAD-FR	Benign Liver Tumour - FR		France	
+LICA-FR	Liver Cancer - FR		France	500
+LIHM-FR	Liver Hepatocellular Macronodules - FR		France	
+LMS-FR	Soft tissue cancer - Leiomyosarcoma - FR		France	50
+RTBL-FR	Eye cancer - Retinoblastoma - FR		France	
+EOPC-DE	Early Onset Prostate Cancer - DE		Germany	250
+MALY-DE	Malignant Lymphoma - DE		Germany	500
+PBCA-DE	Pediatric Brain Cancer - DE		Germany	600
+ORCA-IN	Oral Cancer - IN		India	500
+PACA-IT	Pancreatic Cancer - IT		Italy	250
+LINC-JP	"Liver Cancer - NCC, JP"		Japan	500
+LIRI-JP	"Liver Cancer - RIKEN, JP"		Japan	500
+BRCA-MX	"Breast Cancer - SIGMA, MX"		Mexico	80
+HNCA-MX	"Head and Neck Cancer - SIGMA, MX"		Mexico	80
+NHLY-MX	"Non Hodgkin Lymphoma - SIGMA, MX"		Mexico	80
+THCA-SA	Thyroid Cancer - SA		Saudi Arabia	500
+BTCA-SG	Biliary tract cancer - Gall bladder cancer/Cholangiocarcinoma - SG		Singapore	100
+BRCA-KR	Breast Cancer - KR		South Korea	350
+LAML-KR	Acute Myeloid Leukemia - KR		South Korea	200
+LUSC-KR	Lung Cancer - Squamous cell carcinoma - KR		South Korea	100
+CLLE-ES	Chronic Lymphocyclic Leukemia - ES		Spain	500
+ALL-US	Acute Lymphoblastic Leukemia Ð US		"TARGET, US"	100
+AML-US	"Acute Myeloid Leukemia - TARGET, US"		"TARGET, US"	300
+CCSK-US	"Clear Cell Sarcomas of the Kidney - TARGET, US"		"TARGET, US"	500
+NBL-US	"Neuroblastoma - TARGET, US"		"TARGET, US"	50
+OS-US	"Osteosarcoma - TARGET, US"		"TARGET, US"	300
+RT-US	"Rhabdoid Tumors - TARGET, US"		"TARGET, US"	300
+WT-US	"Wilms Tumor - TARGET, US"		"TARGET, US"	100
+BLCA-US	"Bladder Urothelial Cancer - TGCA, US"		"TCGA, US"	350
+BRCA-US	"Breast Cancer - TCGA, US"		"TCGA, US"	1000
+CESC-US	"Cervical Squamous Cell Carcinoma - TCGA, US"		"TCGA, US"	250
+COAD-US	"Colon Adenocarcinoma - TCGA, US"		"TCGA, US"	600
+DLBC-US	"Lymphoid Neoplasm Diffuse Large B-cell Lymphoma - TCGA, US"		"TCGA, US"	100
+GBM-US	"Brain Glioblastoma Multiforme - TCGA, US"		"TCGA, US"	500
+HNSC-US	"Head and Neck Squamous Cell Carcinoma - TCGA, US"		"TCGA, US"	500
+KICH-US	"Kidney Chromophobe - TCGA, US"		"TCGA, US"	100
+KIRC-US	"Kidney Renal Clear Cell Carcinoma - TCGA, US"		"TCGA, US"	500
+KIRP-US	"Kidney Renal Papillary Cell Carcinoma - TCGA, US"		"TCGA, US"	300
+LAML-US	"Acute Myeloid Leukemia - TCGA, US"		"TCGA, US"	200
+LGG-US	"Brain Lower Grade Gliona - TCGA, US"		"TCGA, US"	500
+LIHC-US	"Liver Hepatocellular carcinoma - TCGA, US"		"TCGA, US"	300
+LUAD-US	"Lung Adenocarcinoma - TCGA, US"		"TCGA, US"	500
+LUSC-US	"Lung Squamous Cell Carcinoma - TCGA, US"		"TCGA, US"	500
+OV-US	"Ovarian Serous Cystadenocarcinoma - TCGA, US"		"TCGA, US"	550
+PAAD-US	"Pancreatic Cancer - TCGA, US"		"TCGA, US"	300
+PRAD-US	"Prostate Adenocarcinoma - TCGA, US"		"TCGA, US"	500
+PRCA-FR	Prostate cancer - Adenocarcinoma - FR		"TCGA, US"	
+READ-US	"Rectum Adenocarcinoma - TCGA, US"		"TCGA, US"	600
+SARC-US	"Sarcoma - TCGA, US"		"TCGA, US"	300
+SKCM-US	"Skin Cutaneous melanoma - TCGA, US"		"TCGA, US"	500
+STAD-US	"Gastric Adenocarcinoma - TCGA, US"		"TCGA, US"	250
+THCA-US	"Head and Neck Thyroid Carcinoma - TCGA, US"		"TCGA, US"	500
+UCEC-US	"Uterine Corpus Endometrial Carcinoma- TCGA, US"		"TCGA, US"	500
+BOCA-UK	Bone Cancer - UK		United Kingdom	500
+BRCA-UK	Breast Triple Negative/Lobular Cancer - UK		United Kingdom	500
+CMDI-UK	Chronic Myeloid Disorders - UK		United Kingdom	500
+ESAD-UK	Esophageal Adenocarcinoma - UK		United Kingdom	500
+PRAD-UK	Prostate Adenocarcinoma - UK		United Kingdom	400
