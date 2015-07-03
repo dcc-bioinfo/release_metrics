@@ -82,6 +82,9 @@ def main(go):
     
     anchorfile = open(anchorfilename,'r')
     anchorlines = anchorfile.readlines()
+        
+    #open file for numbers
+    outfile = open(str(directory)+"numbers.txt",'w')
 
     #open the directory to view the projects
     total = 0
@@ -90,6 +93,7 @@ def main(go):
     for filename in os.listdir(directory):
         sys.stdout.flush()
         sys.stdout.write("\n")
+        outfile.write("\n")
         for group in groups:
 
             if group == "dna":
@@ -167,6 +171,7 @@ def main(go):
                 # find the "goal" number, offset everything by that 
                 wholegenomes = donorids
                 sys.stdout.write (filename+"\t")
+                outfile.write (filename+"\t")
                 if anchor != 1:
                     multiplier = len(wholegenomes)/anchor
                     if multiplier > 1:
@@ -174,12 +179,22 @@ def main(go):
                 else:
                     multiplier = 1
                 sys.stdout.write (str(100*multiplier))
+                outfile.write (str(len(donorids))+"/"+str(anchor))
                 #sys.stdout.write (str(len(wholegenomes)))
             else:
-                if wholegenomes != []:
-                    sys.stdout.write ("\t"+"{:.1%}".format(len(common_elements(donorids,wholegenomes))/len(wholegenomes)*multiplier))
+                if anchor != 1:
+                    multiplier = len(donorids)/anchor
+                    if multiplier > 1:
+                        multiplier = 1
                 else:
-                    sys.stdout.write("\t0")
+                    multiplier = 1
+                sys.stdout.write ("\t"+str(100*multiplier))
+                outfile.write ("\t"+str(len(donorids))+"/"+str(anchor))
+               
+                #if wholegenomes != []:
+                    #sys.stdout.write ("\t"+"{:.1%}".format(len(common_elements(donorids,wholegenomes))/len(wholegenomes)*multiplier))
+                #else:
+                #    sys.stdout.write("\t0")
     #sys.stdout.write (str(total))
 
 #need to run "main" on every file group
