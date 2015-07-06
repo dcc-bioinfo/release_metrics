@@ -84,7 +84,7 @@ def main(go):
     anchorlines = anchorfile.readlines()
         
     #open file for numbers
-    outfile = open(str(directory)+"numbers.txt",'w')
+    outfile = open(str(os.path.basename(directory))+"numbers.txt",'w')
 
     #open the directory to view the projects
     total = 0
@@ -99,7 +99,7 @@ def main(go):
             if group == "dna":
                 flist = ["ssm_m","stsm_m","cnsm_m","jcn_m"]
             elif group == "rnaseq":
-                flist = ["mirna_seq_m","exp_seq_m","exp_m","mirna_m"]
+                flist = ["mirna_seq_m","exp_seq_m","mirna_m"]
             elif group == "epigenome":
                 flist = ["meth_seq_m","meth_array_m"]
             elif group == "protein":
@@ -123,7 +123,7 @@ def main(go):
                 continue
             if not os.path.isfile(filename):
                 for files in os.listdir(directory+"/"+filename):
-                    if not files.startswith('.') and ".bak" not in files:
+                    if not files.startswith('.') and ".bak" not in files and "no_detect" not in files:
                         if "donor" in files:
                             if "pancancer" not in files:
                                 donorfilelist.append(directory+"/"+filename+"/"+files)
@@ -178,6 +178,9 @@ def main(go):
                         multiplier = 1
                 else:
                     multiplier = 1
+
+		if len(donorids) == 0:
+		    multiplier = 0
                 sys.stdout.write (str(100*multiplier))
                 outfile.write (str(len(donorids))+"/"+str(anchor))
                 #sys.stdout.write (str(len(wholegenomes)))
@@ -188,6 +191,8 @@ def main(go):
                         multiplier = 1
                 else:
                     multiplier = 1
+		if len(donorids) == 0:
+		    multiplier = 0
                 sys.stdout.write ("\t"+str(100*multiplier))
                 outfile.write ("\t"+str(len(donorids))+"/"+str(anchor))
                
