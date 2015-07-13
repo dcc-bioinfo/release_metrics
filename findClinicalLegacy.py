@@ -7,6 +7,10 @@ import gzip
 #INPUT: directory containing raw data 
 #OUTPUT: % clinical metrics for each project. 1 file per project. Also 2 files containing % for all projects for dcc and PCAWG
 
+def detAll():
+    # determines legacy data's pool size
+    pass
+
 def getClinicalPercentage(afile,logfile):
     print afile
     #Determines clinical percentages for ONE tab delimited file
