@@ -51,7 +51,7 @@ def analyze(filelist,cout,release):
                for sampleid in donortosample[donor]:
                    # go through the analysis files and see if anything matches
                     for otherfiles in filelist:
-                        if "sample" not in otherfiles:
+                        if "sample" not in otherfiles and "clinical" not in otherfiles:
                             # assume DNA if there isnt a sequencing strategy
                             if "gz" in otherfiles:
                                 filelines = gzip.open (name,'r')
@@ -82,7 +82,7 @@ def analyze(filelist,cout,release):
                     if found:
                         break
            
-            cout.write("Release ",release,": ",dnacount,"\t",expcount,"\t",methcount,"\t",mirnacount,"\t",len(donortosample),"\n")
+            cout.write("Release "+str(release)+": "+str(dnacount)+"\t"+str(expcount)+"\t"+str(methcount)+"\t"+str(mirnacount)+"\t"+str(len(donortosample))+"\n")
            # print "Analysis: DNA",dnacount,"//",len(donortosample)
            # print "Analysis: exp",expcount,"//",len(donortosample)
            #  print "Analysis: meth",methcount,"//",len(donortosample)
@@ -133,21 +133,21 @@ def getClinicalPercentage(afile,logfile):
 
 def main():
     directory = sys.argv[1]
-    release = 1
+    release = 1 
     for dirs in os.listdir(directory):
-        if os.path.isfile(dirs):
+	print release
+        if not os.path.isfile(dirs):
             #open the directory to view the projects
-            for filename in os.listdir(dirs):
+            for filename in os.listdir(directory+"/"+dirs):
                 currentproject = filename
-                print currentproject,
-                cout =open (currentproject+"_legacy_analyzed",'w')
+                cout =open (currentproject+"_legacy_analyzed",'a')
                 #open a file for this
                 filelist=[]
                 #open this project folder
                 if not os.path.isfile(filename) and not filename.startswith('.') and "TEST" not in filename and "README" not in filename:
-                    for files in os.listdir(directory+"/"+currentproject):
+                    for files in os.listdir(directory+"/"+dirs+"/"+currentproject):
                         if not files.startswith('.') and "no_detect" not in files and "README" not in files:
-                                filelist.append(directory+"/"+currentproject+"/"+files) #add this file to our filelist
+                                filelist.append(directory+"/"+dirs+"/"+currentproject+"/"+files) #add this file to our filelist
                     if filelist == []:
                       continue
 
@@ -158,6 +158,6 @@ def main():
 
                     #print avg, we are assuming total_fields entries. 
                     cout.close()
-                    release +=1
+	release +=1
 
 main()
