@@ -50,6 +50,9 @@ def analyze(filelist,cout,release):
                dnacounted = False
                for sampleid in donortosample[donor]:
                    # go through the analysis files and see if anything matches
+                    #failsafe incase there is NO sampleID 
+                    if sampleid == "":
+                        continue
                     for otherfiles in filelist:
                         if "sample" not in otherfiles and "clinical" not in otherfiles:
                             # assume DNA if there isnt a sequencing strategy
@@ -135,7 +138,7 @@ def main():
     directory = sys.argv[1]
     release = 1 
     for dirs in os.listdir(directory):
-	print release
+      print release
         if not os.path.isfile(dirs):
             #open the directory to view the projects
             for filename in os.listdir(directory+"/"+dirs):
