@@ -7,11 +7,13 @@ call ("ssh-keygen -R hproxy-dcc.res.oicr.on.ca",shell=True)
 
 def scpdonors (projectcode):
 
-    call ( "sshpass -p 'Meowmoko12' scp kchen@hproxy-dcc.res.oicr.on.ca:/hdfs/dcc/icgc/submission/ICGC20/"+projectcode+"/donor* TEST" ,shell=True)
+    call ( "sshpass -p 'Meowmoko12' scp kchen@hproxy-dcc.res.oicr.on.ca:/hdfs/dcc/icgc/submission/ICGC19/"+projectcode+"/donor* TEST" ,shell=True)
 
 
 def main ():
     #open the big pcawg table
+
+     
 
     pcawgfilelines = open(sys.argv[1],'r').readlines()
 

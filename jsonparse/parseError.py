@@ -8,13 +8,17 @@ import pprint
 def genError (data,errors):
     # go through to needed level
     for i in range(len(data['dataTypeReports'])):
+
         for filepos in range(len((data['dataTypeReports'][i]['fileTypeReports']))):
+
             for fileReportPos in range(len(data['dataTypeReports'][i]['fileTypeReports'][filepos]['fileReports'])):
+
              #for reach FILE (clinical, etc) get the error(s)
              errorReport = data['dataTypeReports'][i]['fileTypeReports'][filepos]['fileReports'][fileReportPos]['errorReports']
 
              #print "ERROR REPORT = %s\n"%errorReport
              if (len(errorReport) != 0):
+
                     #if the error is not empty, go through each one
                     for report in range(len(errorReport)):
                         print "Error type = %s"%(errorReport[report]['errorType']),"\n"
@@ -23,8 +27,10 @@ def genError (data,errors):
                             print "ERROR: ", fieldErrors+1
                             errorType =(errorReport[report]['fieldErrorReports'][fieldErrors]['fieldNames'][0])
                             print "COLUMN: ", errorType
+
                             print "DESCRIPTION: ",
                             print errors[errorType][0]
+
                             print "SCRIPT: "
                             print errors[errorType][1]
 
@@ -40,10 +46,12 @@ def genError (data,errors):
                             print ""
     
 def main():
+    #get all the files from the folder
+
     #hardcoded dict info
     #dict mapping then name of the error to ["DESC","CODE"]
     errors = {
-            "donor_survival_time":["Donor survival time must be submitted if donor is deceased. If donor is alive and in complete remission, relapse or progression, donor survival time should be equal to the donor interval of last followup. If the donor is deceased and was in complete remission, relpase or progression, the donor survival time should be less than or equal to the donor relpase interval but greater than or equal to the donor interval of last followup.","""
+            "donor_survival_time":["Donor survival time must be submitted if donor is deceased. If donor is alive and in complete remission, relapse or progression, donor survival time should be equal to the donor interval of last followup. If the donor is deceased and was in complete remission, relapse or progression, the donor survival time should be less than or equal to the donor relapse interval but greater than or equal to the donor interval of last followup.","""
                 complete_remission = (disease_status_last_followup == '1'); 
                 progression = (disease_status_last_followup == '3'); 
                 relapse = (disease_status_last_followup == '4'); 
@@ -53,13 +61,13 @@ def main():
                 if (deceased && donor_survival_time == null){ return false } 
                 else if ( (donor_survival_time != null && donor_interval_of_last_followup !=  null) && (complete_remission || progression || relapse) ) { 
                    if (alive) { 
-                             donor_survival_time == donor_interval_of_last_followup 
-                                } else if (deceased) { 
-                                          donor_survival_time <= donor_interval_of_last_followup 
-                                             } else { return true }
-                                } else { return true }
+                     donor_survival_time == donor_interval_of_last_followup 
+                        } else if (deceased) { 
+                          donor_survival_time <= donor_interval_of_last_followup 
+                        } else { return true }
+                    } else { return true }
                 """],
-            "donor_relapse_interval":["If donor is alive and in complete remission, relapse or progression, the donor relapse interval should be less than or equal to the donor interval of last followup. If the donor is decesased and was in complete remission, relapse or progression, the donor relapse interval should be less than or equal to the donor survival time.","""
+            "donor_relapse_interval":["If donor is alive and in complete remission, relapse or progression, the donor relapse interval should be less than or equal to the donor interval of last followup. If the donor is deceased and was in complete remission, relapse or progression, the donor relapse interval should be less than or equal to the donor survival time.","""
                 complete_remission  = (disease_status_last_followup ==  '1'); donor_primary_treatment_interval
                 progression = (disease_status_last_followup ==  '3'); 
                 relapse = (disease_status_last_followup ==  '4'); 
@@ -67,17 +75,16 @@ def main():
                 deceased  = (donor_vital_status ==  '2'); 
 
                 if  (donor_relapse_interval !=  null){  
-                        if  (progression  ||  relapse){ 
-                                    if  (alive){  
-                                                    if  (donor_interval_of_last_followup  !=  null){  
-                                                                        return  donor_relapse_interval  <=  donor_interval_of_last_followup 
-                                                                                    } 
-                                                            }else if  (deceased){ 
-                                                                            if  (donor_survival_time  !=  null){  
-                                                                                                return  donor_relapse_interval  <=  donor_survival_time 
-                                                                                                            } 
-                                                                                    } 
-                                                                } 
+                    if  (progression  ||  relapse){ 
+                        if  (alive){  
+                            if  (donor_interval_of_last_followup  !=  null){  
+                                return  donor_relapse_interval  <=  donor_interval_of_last_followup 
+                            } 
+                            }else if  (deceased){ 
+                                if  (donor_survival_time  !=  null){  
+                                    return  donor_relapse_interval  <=  donor_survival_time 
+                                } 
+                            } 
                         } 
                 return  true  
                 """],
@@ -105,22 +112,17 @@ def main():
     #open output file
     projectfile = inputfile.split("_")
 
-   # outfile = open (projectfile[0]+".error",'w')
-
+    # outfile = open (projectfile[0]+".error",'w')
 
     print "PROJECT: ", projectfile[0], "\n"
-
     filedata = open (inputfile).read()
+
     jsondata = json.loads(filedata)
 
     #print project data
 
     genError(jsondata,errors)
 
-    #print name
-    #print issue
-
-    #test print
     #print (jsondata['dataTypeReports'][0]['fileTypeReports'][2]['fileReports'][0]['errorReports'])
 
 main()
