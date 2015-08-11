@@ -3,6 +3,7 @@ import re
 import json
 import sys
 import pprint
+import gzip
 
 
 def genError (data,errors):
@@ -51,60 +52,108 @@ def main():
     #hardcoded dict info
     #dict mapping then name of the error to ["DESC","CODE"]
     errors = {
-            "donor_survival_time":["Donor survival time must be submitted if donor is deceased. If donor is alive and in complete remission, relapse or progression, donor survival time should be equal to the donor interval of last followup. If the donor is deceased and was in complete remission, relapse or progression, the donor survival time should be less than or equal to the donor relapse interval but greater than or equal to the donor interval of last followup.","""
-                complete_remission = (disease_status_last_followup == '1'); 
-                progression = (disease_status_last_followup == '3'); 
-                relapse = (disease_status_last_followup == '4'); 
-                alive = (donor_vital_status == '1'); 
-                deceased = (donor_vital_status == '2'); 
+            "donor_survival_time":["""
+When donor is deceased:
 
-                if (deceased && donor_survival_time == null){ return false } 
-                else if ( (donor_survival_time != null && donor_interval_of_last_followup !=  null) && (complete_remission || progression || relapse) ) { 
-                   if (alive) { 
-                     donor_survival_time == donor_interval_of_last_followup 
-                        } else if (deceased) { 
-                          donor_survival_time <= donor_interval_of_last_followup 
-                        } else { return true }
-                    } else { return true }
-                """],
-            "donor_relapse_interval":["If donor is alive and in complete remission, relapse or progression, the donor relapse interval should be less than or equal to the donor interval of last followup. If the donor is deceased and was in complete remission, relapse or progression, the donor relapse interval should be less than or equal to the donor survival time.","""
-                complete_remission  = (disease_status_last_followup ==  '1'); donor_primary_treatment_interval
-                progression = (disease_status_last_followup ==  '3'); 
-                relapse = (disease_status_last_followup ==  '4'); 
-                alive = (donor_vital_status ==  '1'); 
-                deceased  = (donor_vital_status ==  '2'); 
+        -donor_survival_time is required. 
+        -When "donor_interval_of_last_followup" has a value, it must be greater than or equal to "donor_survival time".
 
-                if  (donor_relapse_interval !=  null){  
-                    if  (progression  ||  relapse){ 
-                        if  (alive){  
-                            if  (donor_interval_of_last_followup  !=  null){  
-                                return  donor_relapse_interval  <=  donor_interval_of_last_followup 
-                            } 
-                            }else if  (deceased){ 
-                                if  (donor_survival_time  !=  null){  
-                                    return  donor_relapse_interval  <=  donor_survival_time 
-                                } 
-                            } 
-                        } 
-                return  true  
+When donor is alive:
+
+        -If "donor_survival_time" and "donor_interval_of_last_followup" have values, "donor_survival_time" must equal "donor_interval_of_last_followup"
+""","""
+alive = (donor_vital_status == '1'); 
+deceased = (donor_vital_status == '2'); 
+ 
+if (deceased) { 
+   if (donor_survival_time == null) { 
+      return false 
+   } 
+   if (donor_interval_of_last_followup != null) { 
+      if (!(donor_survival_time <= donor_interval_of_last_followup)) { 
+         return false 
+      } 
+   } 
+} 
+ 
+if (alive) { 
+   if (donor_survival_time != null && donor_interval_of_last_followup != null) { 
+      if (!(donor_survival_time == donor_interval_of_last_followup)) { 
+         return false 
+      }
+   } 
+} return true
+                       """],
+            "donor_relapse_interval":["""
+If the donor's disease status at last followup was progression or relapse:
+
+        -"donor_relapse_interval" is required.
+
+If the donor is alive:
+
+            -"donor_relapse_interval" should be less than or equal to "donor_interval_of_last_followup"
+
+If donor is deceased:
+
+            -"donor_relapse_interval" should be less then or equal to "donor_survival_time".
+""","""
+alive = (donor_vital_status == '1'); 
+deceased = (donor_vital_status == '2'); 
+progression = (disease_status_last_followup == '3'); 
+relapse = (disease_status_last_followup == '4'); 
+ 
+ 
+if (progression || relapse ) { 
+   if (donor_relapse_interval == null || donor_interval_of_last_followup == null) { 
+      return false 
+   } 
+ 
+   if (alive && !(donor_relapse_interval <= donor_interval_of_last_followup)) { 
+      return false 
+   } 
+ 
+   if (deceased && !(donor_relapse_interval <= donor_survival_time)) { 
+      return false 
+   } 
+} return true
+                     """],
+            "donor_age_at_enrollment":["""
+    -If the donor is older than 90 years, default value of 90 should be used. 
+    -The donor's age at enrollment should be less than or equal to the donor's age at last_followup
+""","""
+if (donor_age_at_enrollment > 90) { 
+    return false }
+if (donor_age_at_enrollment > donor_age_at_last_followup) {
+    return false}
+return true
+"""],
+            "donor_age_at_diagnosis":["""
+    -If the donor is older than 90 years, default value of 90 should be used. 
+    -The donor's age at diagnosis should be less than or equal to the donor's age at enrollment
+""","""
+if (donor_age_at_diagnosis > 90) { 
+    return false }
+if (donor_age_at_diagnosis > donor_age_at_last_followup) {
+    return false}
+return true
                 """],
-            "donor_age_at_enrollment":["The donor's age at enrollment must be expressed in years. If donor is older than 90 years old, submit value of 90. The donor age at enrollment should be greater than or equal to the donor's age at last followup","""
-                if (donor_age_at_enrollment > 90) { 
-                    return false }
-                if (donor_age_at_enrollment > donor_age_at_last_followup) {
-                    return false}
-                return true
-                """],
-            "donor_age_at_diagnosis":["The donor's age at diagnosis must be expressed in years. If donor is older than 90 years, submit value of 90. The donor's age at diagnosis should be less than or equal to the donor's age at enrollment","""
-                if (donor_age_at_diagnosis > 90) { 
-                    return false }
-                if (donor_age_at_diagnosis > donor_age_at_last_followup) {
-                    return false}
-                return true
-                                """],
                 "donor_age_at_last_followup":["The donor's age at last followup must be expressed in years. If the donor is older than 90 years old, submit value of 90.","""
-                if (donor_age_at_last_followup > 90) { return false } return true
-                                             """]
+if (donor_age_at_last_followup > 90) { return false } return true
+                                             """],
+            "donor_interval_of_last_followup":["""
+If the disease status at last followup was progression or relapse:
+    - "donor_interval_of_last_followup" field is required
+            """,
+            """
+progression = (disease_status_last_followup == '3'); 
+relapse = (disease_status_last_followup == '4'); 
+ 
+if (progression || relapse) { 
+   if (donor_interval_of_last_followup == null) { 
+      return false 
+   } 
+} return true
+            """]
             }
 
     inputfile = sys.argv[1]
@@ -115,7 +164,10 @@ def main():
     # outfile = open (projectfile[0]+".error",'w')
 
     print "PROJECT: ", projectfile[0], "\n"
-    filedata = open (inputfile).read()
+    if ".gz" in inputfile:
+        filedata = gzip.open (inputfile).read()
+    else:
+        filedata = open (inputfile).read()
 
     jsondata = json.loads(filedata)
 

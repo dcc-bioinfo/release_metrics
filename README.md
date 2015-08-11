@@ -1,8 +1,23 @@
+readme updaed Aug-10/2015
+
+
 # ICGC data fetching scripts #
 
 A set of scripts to parse and create ICGC data. Downloading files from the repository has been depreciated, so the scripts generally use the root folder containing all the projects as input now.
 
 # Quick rundown of what each file does #
+
+## jsonparse ##
+
+Some scripts related to testing with the finished submissions.
+
+### findMissingPcawg.py ###
+
+Finds any missing pcawg donors from the list that are not currently in the submissions. Simply generates a list of the donors.
+
+### parseError.py ###
+
+Parses a prettier error report from the json log generated from the submission system. Details which errors are found and the problem lines.
 
 ### allprojects.txt ###
 
@@ -46,4 +61,4 @@ A badly named file, while originally finding whole genome counts for projects, n
 
 ### signedofflist.txt ###
 
-Fairly useless, needed to have this on cluster.
+Fairly useless, needed to have this on cluster. Specifically, it is a list of signed off projects as of Release 19. 

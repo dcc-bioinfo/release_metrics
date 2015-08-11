@@ -138,7 +138,7 @@ def main():
     directory = sys.argv[1]
     release = 1 
     for dirs in os.listdir(directory):
-      print release
+        print release
         if not os.path.isfile(dirs):
             #open the directory to view the projects
             for filename in os.listdir(directory+"/"+dirs):
